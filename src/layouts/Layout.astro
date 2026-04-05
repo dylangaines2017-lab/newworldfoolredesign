@@ -30,6 +30,21 @@ const { title = "New World Fool Productions", noSnap = false } = Astro.props;
   </body>
 </html>
 
+<script>
+  // Disable browser scroll restoration so it doesn't scroll to a previous position
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+
+  // Scroll to top on initial load
+  window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+
+  // Scroll to top after every Astro view transition swap
+  document.addEventListener('astro:after-swap', () => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  });
+</script>
+
 <style is:global>
   *, *::before, *::after {
     box-sizing: border-box;
