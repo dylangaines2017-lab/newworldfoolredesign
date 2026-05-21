@@ -19,18 +19,18 @@ Dylan's films have screened at festivals across the United States and internatio
     title: "Writer · Director · Cinematographer",
     initials: "CH",
     photo: "/team/craig.jpg",
-    objectPosition: "60% center",
+    objectPosition: "center center",
     bio: `Craig Helfer's love for cinema began at age seven when he first saw Jurassic Park in a sold-out theater. That transformative experience sparked a lifelong passion that would shape his career as a writer, director, and cinematographer based in New Jersey.
 
 As the creative force behind Iron Horse Cinema, Craig wrote, directed, and produced 20+ short films that accumulated 300,000+ subscribers and 46 million channel views on YouTube. His work spans corporate storytelling and independent filmmaking, with expertise in cinematography, lighting, and post-production.
 
 With over a decade of experience, Craig has worked with high-profile clients including Hilton, Nissan, Goldman Sachs, and Adidas, creating content with over 120 million views across digital platforms.`,
     imdbUrl: "https://craighelfer.com/",
-    imdbLabel: "Portfolio →",
+    imdbLabel: "Portfolio",
   },
   {
     name: "George Wang",
-    title: "Producer",
+    title: "Writer · Director · Producer",
     initials: "GW",
     photo: "/team/george.jpg",
     bio: `George Wang is a New York City-based producer with a lifelong passion for storytelling and a proven track record of bringing creative visions to life. He wrote, directed, and produced his first feature film in high school, premiering it to an audience of over 200 people and earning coverage in local press.
@@ -38,7 +38,7 @@ With over a decade of experience, Craig has worked with high-profile clients inc
 In college, he founded his school's first filmmaking club, growing it from a small circle of friends to over 70 active members producing 40+ short films, earning recognition at national film festivals, and raising more than $20K in funding.
 
 Beyond the camera, George brings a sharp business mind to his work, drawing on his background in finance and his experience as a nonprofit treasurer overseeing operational and financial decision-making.`,
-    imdbUrl: undefined,
+    imdbUrl: "https://www.imdb.com/name/nm16588879",
   },
   {
     name: "Varun Giridhar",
@@ -59,50 +59,109 @@ As a filmmaker, Varun seeks to achieve something different with each project —
   <div class="about-page">
 
     <header class="page-hero">
-      <span class="label">Who We Are</span>
-      <h1>About</h1>
+
+      <h1>Truth told <em>slant.</em></h1>
       <div class="mission">
-        <p>We live in a world drenched in arrogance, greed, and corruption. By invoking the medieval iconography of the "court jester," New World Fool Productions seeks to illuminate these blatant hypocrisies through a variety of visual media formats.</p>
+        <p>We live in a world drenched in arrogance, greed, and corruption. By invoking the medieval iconography of the "court jester," we seek to illuminate these blatant hypocrisies through a variety of visual media formats.</p>
+      </div>
+      <div class="hero-image-wrap">
+        <img src="/FilmScreengrabs/ShovingOnionRIngsDown.png" alt="" class="hero-image" />
       </div>
     </header>
 
-    <section class="team-section">
-      <div class="team-header">
-        <span class="section-label">The Team</span>
-      </div>
-      <div class="team-list">
-        {members.map((member) => (
-          <div class="member">
-            <div class="member-left">
-              <div class="member-photo-wrap">
-                <img src={member.photo} alt={member.name} class="member-photo" style={member.objectPosition ? `object-position: ${member.objectPosition}` : undefined} />
-              </div>
-            </div>
-            <div class="member-right">
-              <div class="member-header">
-                <h2 class="member-name">{member.name}</h2>
-                <span class="member-title">{member.title}</span>
-              </div>
-              <div class="member-bio">
-                {member.bio.split("\n\n").map((para) => (
-                  <p>{para}</p>
-                ))}
-              </div>
-              {member.imdbUrl && (
-                <a
-                  href={member.imdbUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="member-link"
-                >
-                  {member.imdbLabel ?? "IMDb →"}
-                </a>
-              )}
-            </div>
+    <section class="mission-statement">
+      <p><span class="drop-cap">W</span>e grew up with the internet in our pocket, influencers in our ears, and algorithms quietly controlling our consumption. We watched attention become a commodity. We watched on-demand turn into on-demand-everything. Now we're watching AI and trying to figure out what that means before it's already over. Great.</p>
+      <p>Nobody gave us a map for any of it. Nobody even told us we were going to need one.</p>
+      <p>So we started making films instead.</p>
+      <p>The stories we want to tell aren't inspirational. They're not comfortable. But they're ours. Dark, disturbingly funny, and too true to look away from. The stories that don't have clean lessons or redemption arcs. Just the narrative by itself, held up to the light.</p>
+      <p>The fool speaks. The king listens. The court laughs.</p>
+      <p>That was always the plan.</p>
+    </section>
+
+    <section class="floating-grid-section">
+      <div class="floating-grid">
+        <div class="float-box" data-offset="0"   data-speed="0.06" data-start="0">
+          <div class="box-inner">
+            <img class="img-base" src="/aboutScreengrabs/GunPointedStillPNG.png" alt="" />
+            <img class="img-top"  src="/aboutScreengrabs/GunPointedStillPNG.png" alt="" />
           </div>
+        </div>
+        <div class="float-box" data-offset="120" data-speed="0.16" data-start="1">
+          <div class="box-inner">
+            <img class="img-base" src="/aboutScreengrabs/ShovingFrenchFriesInMouthClosed.png" alt="" />
+            <img class="img-top"  src="/aboutScreengrabs/ShovingFrenchFriesInMouthClosed.png" alt="" />
+          </div>
+        </div>
+        <div class="float-box" data-offset="50"  data-speed="0.09" data-start="2">
+          <div class="box-inner">
+            <img class="img-base" src="/aboutScreengrabs/PiggyStill003.png" alt="" />
+            <img class="img-top"  src="/aboutScreengrabs/PiggyStill003.png" alt="" />
+          </div>
+        </div>
+        <div class="float-box" data-offset="160" data-speed="0.2"  data-start="3">
+          <div class="box-inner">
+            <img class="img-base" src="/aboutScreengrabs/PiggyStill25.png" alt="" />
+            <img class="img-top"  src="/aboutScreengrabs/PiggyStill25.png" alt="" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="team-section">
+      <h2 class="team-heading">The <em>fools.</em></h2>
+      <div class="team-row">
+        {members.map((member, i) => (
+          <button class="member-card" data-index={String(i)}>
+            <div class="card-photo-wrap">
+              <img
+                src={member.photo}
+                alt={member.name}
+                class="card-photo"
+                style={member.objectPosition ? `object-position: ${member.objectPosition}` : undefined}
+              />
+            </div>
+            <div class="card-info">
+              <span class="card-name">{member.name}</span>
+              <span class="card-title">{member.title}</span>
+            </div>
+          </button>
         ))}
       </div>
     </section>
+
+    <div class="member-modal" id="member-modal" aria-hidden="true">
+      <div class="modal-backdrop"></div>
+      <div class="modal-inner">
+        <button class="modal-close" aria-label="Close">✕</button>
+        <div class="modal-top">
+          <div class="modal-tags"></div>
+          <h3 class="modal-name"></h3>
+        </div>
+        <div class="modal-bottom">
+          <div class="modal-photo-col">
+            <img class="modal-photo" src="" alt="" />
+          </div>
+          <div class="modal-text-col">
+            <div class="modal-bio"></div>
+            <a class="modal-link" href="" target="_blank" rel="noopener noreferrer"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="members-data"
+      hidden
+      data-members={JSON.stringify(members.map(m => ({
+        name: m.name,
+        title: m.title,
+        photo: m.photo,
+        objectPosition: m.objectPosition ?? null,
+        bio: m.bio,
+        imdbUrl: m.imdbUrl ?? null,
+        imdbLabel: m.imdbLabel ?? null,
+      })))}
+    ></div>
 
   </div>
 </Layout>
@@ -115,15 +174,14 @@ As a filmmaker, Varun seeks to achieve something different with each project —
 
   /* ── Hero ── */
   .page-hero {
-    padding: 5rem 2.5rem 5rem;
-    border-bottom: 1px solid #1a1a18;
-    max-width: 1100px;
-    margin: 0 auto;
+    padding: 3rem 2.5rem;
+    text-align: center;
+    background: radial-gradient(ellipse 70% 60% at 50% 40%, rgba(200, 169, 110, 0.22) 0%, rgba(200, 169, 110, 0.06) 50%, transparent 100%);
   }
 
   .label {
     display: block;
-    font-family: "DM Mono", monospace;
+    font-family: "JetBrains Mono", monospace;
     font-size: 0.7rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -132,7 +190,7 @@ As a filmmaker, Varun seeks to achieve something different with each project —
   }
 
   h1 {
-    font-family: "Bebas Neue", sans-serif;
+    font-family: "Instrument Serif", serif;
     font-size: clamp(5rem, 12vw, 10rem);
     font-weight: 400;
     line-height: 0.85;
@@ -141,154 +199,427 @@ As a filmmaker, Varun seeks to achieve something different with each project —
     margin-bottom: 3rem;
   }
 
-  .mission {
-    max-width: 680px;
-    border-left: 2px solid #C8A96E;
-    padding-left: 2rem;
+  .hero-image-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 3rem;
+  }
+
+  .hero-image {
+    width: 100%;
+    max-width: 860px;
+    height: auto;
+    display: block;
+    border-radius: 16px;
+  }
+
+  h1 em {
+    font-style: italic;
+    background: linear-gradient(to right, #C8A96E, #F0D98A, #C8A96E);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 
   .mission p {
-    font-family: "Cormorant Garamond", serif;
+    font-family: "Inter", sans-serif;
     font-size: clamp(1.1rem, 2vw, 1.4rem);
     font-weight: 300;
     line-height: 1.75;
     color: rgba(240, 236, 224, 0.75);
+    max-width: 75%;
+    margin: 0 auto;
+  }
+
+  /* ── Mission Statement ── */
+  .mission-statement {
+    padding: 2.5rem 2.5rem 5rem;
+    max-width: 75%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+  }
+
+  .mission-statement p {
+    font-family: "Inter", sans-serif;
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    font-weight: 300;
+    line-height: 2;
+    color: rgba(240, 236, 224, 0.7);
+  }
+
+  .drop-cap {
+    font-family: "Instrument Serif", serif;
+    font-size: clamp(5rem, 10vw, 8rem);
+    font-weight: 400;
+    line-height: 0.8;
+    float: left;
+    margin-right: 0.08em;
+    margin-top: 0.05em;
+    color: #C8A96E;
+  }
+
+  /* ── Floating Grid ── */
+  .floating-grid-section {
+    padding: 5rem 2.5rem 0;
+    overflow: hidden;
+  }
+
+  .floating-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4rem;
+    align-items: flex-start;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .float-box:nth-child(2) { margin-top: 90px; }
+  .float-box:nth-child(3) { margin-top: 50px; }
+  .float-box:nth-child(4) { margin-top: 150px; }
+
+  .float-box {
+    flex: 1 1 calc(50% - 2rem);
+    min-height: 520px;
+    background: #0f0f0d;
+    border: 1px solid #222220;
+    border-radius: 18px;
+    box-shadow:
+      0 30px 80px rgba(0, 0, 0, 0.7),
+      0 8px 20px rgba(0, 0, 0, 0.4);
+    will-change: transform;
+    overflow: hidden;
+  }
+
+  .box-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: inherit;
+  }
+
+  .box-inner img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .img-top {
+    opacity: 0;
+  }
+
+  @media (max-width: 640px) {
+    .mission-statement {
+      padding-bottom: 2.5rem;
+    }
+
+    .floating-grid-section {
+      padding-top: 2.5rem;
+      padding-bottom: 2.5rem;
+    }
+
+    .team-heading {
+      margin-top: 3rem;
+    }
+
+    .team-section {
+      padding-bottom: 3rem;
+    }
+
+    .floating-grid {
+      gap: 1.5rem;
+    }
+
+    .float-box:nth-child(2),
+    .float-box:nth-child(3),
+    .float-box:nth-child(4) { margin-top: 0; }
+
+    .float-box {
+      flex: 1 1 100%;
+      min-height: 360px;
+      will-change: auto;
+    }
   }
 
   /* ── Team ── */
   .team-section {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 2.5rem;
+    padding: 0 2.5rem 6rem;
   }
 
-  .team-header {
-    padding: 4rem 0 3rem;
-    border-bottom: 1px solid #1a1a18;
+  .team-heading {
+    font-family: "Instrument Serif", serif;
+    font-size: clamp(5rem, 12vw, 10rem);
+    font-weight: 400;
+    line-height: 0.85;
+    color: #F0ECE0;
+    letter-spacing: 0.02em;
+    margin-bottom: 4rem;
   }
 
-  .section-label {
-    font-family: "DM Mono", monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: rgba(240, 236, 224, 0.35);
+  .team-heading em {
+    font-style: italic;
+    background: linear-gradient(to right, #C8A96E, #F0D98A, #C8A96E);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 
-  .team-list {
+  .team-row {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+  }
+
+  .member-card {
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 0;
+    text-align: left;
+  }
+
+  .card-photo-wrap {
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 16px;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 44 44'%3E%3Ccircle cx='22' cy='22' r='20' fill='%23C8A96E' stroke='none'/%3E%3Cpath d='M15 29 L29 15 M22 15 L29 15 L29 22' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") 22 22, pointer;
+  }
+
+  .card-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    filter: grayscale(20%);
+    transition: filter 0.4s ease, transform 0.5s ease;
+    display: block;
+  }
+
+  .member-card:hover .card-photo {
+    filter: grayscale(0%);
+    transform: scale(1.04);
+  }
+
+  .card-info {
+    padding-top: 1rem;
     display: flex;
     flex-direction: column;
+    gap: 0.3rem;
   }
 
-  .member {
-    display: grid;
-    grid-template-columns: 320px 1fr;
-    gap: 4rem;
-    padding: 4rem 0;
-    border-bottom: 1px solid #1a1a18;
+  .card-name {
+    font-family: "Instrument Serif", serif;
+    font-size: clamp(2rem, 2.8vw, 2.8rem);
+    font-weight: 400;
+    color: #F0ECE0;
+    letter-spacing: 0.01em;
+    display: block;
   }
 
-  /* ── Photo ── */
-  .member-left {
+  .card-title {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.825rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(240, 236, 224, 0.5);
+    display: block;
+  }
+
+  /* ── Modal ── */
+  .member-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    transition: opacity 0.4s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .member-modal[aria-hidden="true"] {
+    opacity: 0;
+    transform: scale(0.94);
+    pointer-events: none;
+  }
+
+  .member-modal[aria-hidden="false"] {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.97);
+  }
+
+  .modal-inner {
+    position: relative;
+    z-index: 1;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
   }
 
-  .member-photo-wrap {
-    width: 280px;
-    aspect-ratio: 3/4;
-    overflow: hidden;
+  .modal-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 2rem;
+    background: none;
+    border: none;
+    color: rgba(240, 236, 224, 0.5);
+    font-size: 1rem;
+    font-family: "JetBrains Mono", monospace;
+    cursor: pointer;
+    z-index: 2;
+    transition: color 0.2s;
+    padding: 0.5rem;
+    line-height: 1;
+  }
+
+  .modal-close:hover { color: #F0ECE0; }
+
+  /* Top: name bar */
+  .modal-top {
+    padding: 5rem 4rem;
+    background: #0f0f0d;
     flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
   }
 
-  .member-photo {
+  .modal-tags {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.9rem;
+    letter-spacing: 0.12em;
+    color: rgba(240, 236, 224, 0.5);
+    text-align: center;
+  }
+
+  :global(.modal-tag) {
+    display: inline;
+  }
+
+  :global(.modal-tag-sep) {
+    color: rgba(240, 236, 224, 0.5);
+  }
+
+  .modal-name {
+    font-family: "Instrument Serif", serif;
+    font-size: clamp(4.5rem, 9vw, 10.5rem);
+    font-weight: 400;
+    line-height: 0.88;
+    color: #C8A96E;
+    letter-spacing: 0.02em;
+  }
+
+  .modal-role {
+    display: none;
+  }
+
+  /* Bottom: photo + bio side by side */
+  .modal-bottom {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+  }
+
+  .modal-photo-col {
+    width: 45%;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+
+  .modal-photo {
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center top;
-    filter: grayscale(30%);
-    transition: filter 0.4s ease;
   }
 
-  .member:hover .member-photo {
-    filter: grayscale(0%);
-  }
-
-  /* ── Info ── */
-  .member-right {
+  .modal-text-col {
+    flex: 1;
+    padding: 3rem 4rem;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 2rem;
+    overflow-y: auto;
+    justify-content: flex-start;
+    background: #1a1a18;
   }
 
-  .member-header {
+  .modal-bio {
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    gap: 1.25rem;
   }
 
-  .member-name {
-    font-family: "Bebas Neue", sans-serif;
-    font-size: clamp(3rem, 5vw, 4.5rem);
-    font-weight: 400;
-    line-height: 1;
-    color: #F0ECE0;
-    letter-spacing: 0.02em;
-  }
-
-  .member-title {
-    font-family: "DM Mono", monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: rgba(240, 236, 224, 0.4);
-  }
-
-  .member-bio {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .member-bio p {
-    font-family: "Cormorant Garamond", serif;
-    font-size: 1.05rem;
+  :global(.modal-bio p) {
+    font-family: "Inter", sans-serif;
+    font-size: 1.35rem;
     font-weight: 300;
-    line-height: 1.8;
-    color: rgba(240, 236, 224, 0.65);
+    line-height: 2;
+    color: rgba(240, 236, 224, 0.7);
   }
 
-  .member-link {
-    display: inline-block;
-    font-family: "DM Mono", monospace;
-    font-size: 0.68rem;
-    letter-spacing: 0.1em;
+  .modal-link {
+    display: inline-flex;
+    align-items: center;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.35rem;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: #C8A96E;
     text-decoration: none;
-    transition: opacity 0.2s;
     width: fit-content;
-    border-bottom: 1px solid rgba(200, 169, 110, 0.4);
-    padding-bottom: 0.15rem;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 100% 1px;
+    background-position: right bottom;
+    background-repeat: no-repeat;
+    transition: background-size 0.35s ease;
   }
 
-  .member-link:hover {
-    opacity: 0.7;
+  .modal-link:hover {
+    background-size: 0% 1px;
   }
 
-  /* ── Responsive ── */
+  :global(.modal-link svg) {
+    flex-shrink: 0;
+    margin-left: 0.4em;
+  }
+
   @media (max-width: 900px) {
-    .member {
-      grid-template-columns: 1fr;
-      gap: 2rem;
+    .team-row {
+      flex-wrap: wrap;
+      gap: 1.5rem;
     }
 
-    .member-left {
+    .member-card {
+      flex: 1 1 calc(50% - 0.75rem);
+    }
+
+    .modal-top {
+      padding: 2rem;
+    }
+
+    .modal-bottom {
+      flex-direction: column;
+    }
+
+    .modal-photo-col {
+      width: 100%;
+      height: 35vh;
+      flex-shrink: 0;
+    }
+
+    .modal-text-col {
+      padding: 2rem;
       justify-content: flex-start;
-    }
-
-    .member-photo-wrap {
-      width: 220px;
     }
   }
 
@@ -302,5 +633,150 @@ As a filmmaker, Varun seeks to achieve something different with each project —
     .mission {
       padding-left: 1.25rem;
     }
+
+    .drop-cap {
+      float: none;
+      display: inline;
+      font-size: 3.5rem;
+      line-height: 1;
+      margin-right: 0.04em;
+      margin-top: 0;
+      vertical-align: -0.15em;
+    }
   }
 </style>
+
+<script>
+  const images = [
+    '/aboutScreengrabs/GunPointedStillPNG.png',
+    '/aboutScreengrabs/ShovingFrenchFriesInMouthClosed.png',
+    '/aboutScreengrabs/PiggyStill003.png',
+    '/aboutScreengrabs/PiggyStill25.png',
+    '/aboutScreengrabs/AnnoyedWillAtMonitor.png',
+    '/aboutScreengrabs/WalkingThroughHallway.png',
+  ];
+
+  const boxes = document.querySelectorAll<HTMLElement>('.float-box');
+  const currentIndices = Array.from(boxes).map(b => parseInt(b.dataset.start ?? '0'));
+
+  // ── Parallax (desktop only) ──
+  function updateBoxes() {
+    if (window.innerWidth <= 640) return;
+    const scrollY = window.scrollY;
+    boxes.forEach(box => {
+      const base = parseFloat(box.dataset.offset ?? '0');
+      const speed = parseFloat(box.dataset.speed ?? '0.05');
+      box.style.transform = `translateY(${base - scrollY * speed}px)`;
+    });
+  }
+  window.addEventListener('scroll', updateBoxes, { passive: true });
+  updateBoxes();
+
+  // ── Image cycling ──
+  function nextUnused(boxIndex: number): number {
+    const used = new Set(currentIndices);
+    let candidate = (currentIndices[boxIndex] + 1) % images.length;
+    let tries = 0;
+    while (used.has(candidate) && tries < images.length) {
+      candidate = (candidate + 1) % images.length;
+      tries++;
+    }
+    return candidate;
+  }
+
+  function crossDissolve(box: HTMLElement, boxIndex: number) {
+    const base = box.querySelector<HTMLImageElement>('.img-base');
+    const top  = box.querySelector<HTMLImageElement>('.img-top');
+    if (!base || !top) return;
+
+    const next = nextUnused(boxIndex);
+    currentIndices[boxIndex] = next;
+
+    // Load new image on the top layer (still invisible)
+    top.src = images[next];
+    top.style.transition = 'none';
+    top.style.opacity = '0';
+
+    // Fade top in over the base — cross-dissolve
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        top.style.transition = 'opacity 1.6s ease';
+        top.style.opacity = '1';
+      });
+    });
+
+    // Once fully visible, promote top → base and reset top
+    setTimeout(() => {
+      base.src = images[next];
+      top.style.transition = 'none';
+      top.style.opacity = '0';
+    }, 1700);
+  }
+
+  boxes.forEach((box, i) => {
+    setTimeout(() => {
+      setInterval(() => crossDissolve(box as HTMLElement, i), 5000);
+    }, i * 1200);
+  });
+
+  // ── Modal ──
+  const memberData: {
+    name: string; title: string; photo: string;
+    objectPosition: string | null; bio: string;
+    imdbUrl: string | null; imdbLabel: string | null;
+  }[] = JSON.parse(
+    (document.getElementById('members-data') as HTMLElement)?.dataset.members ?? '[]'
+  );
+
+  const modal      = document.getElementById('member-modal') as HTMLElement;
+  const modalPhoto = modal.querySelector<HTMLImageElement>('.modal-photo');
+  const modalName  = modal.querySelector<HTMLElement>('.modal-name');
+  const modalTags  = modal.querySelector<HTMLElement>('.modal-tags');
+  const modalBio   = modal.querySelector<HTMLElement>('.modal-bio');
+  const modalLink  = modal.querySelector<HTMLAnchorElement>('.modal-link');
+
+  function openModal(index: number, card: HTMLElement) {
+    const m = memberData[index];
+    if (!m || !modalPhoto || !modalName || !modalTags || !modalBio) return;
+
+    modalPhoto.src = m.photo;
+    modalPhoto.style.objectPosition = m.objectPosition ?? 'center center';
+    modalName.textContent = m.name;
+    modalTags.innerHTML = m.title.split(' · ')
+      .map((t: string) => `<span class="modal-tag">${t.toUpperCase()}</span>`)
+      .join('<span class="modal-tag-sep"> · </span>');
+    modalBio.innerHTML = m.bio.split('\n\n').map((p: string) => `<p>${p}</p>`).join('');
+
+    if (modalLink) {
+      if (m.imdbUrl) {
+        modalLink.href = m.imdbUrl;
+        modalLink.innerHTML = `<span>${m.imdbLabel ?? 'IMDb'}</span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`;
+        modalLink.style.display = 'inline-block';
+      } else {
+        modalLink.style.display = 'none';
+      }
+    }
+
+    const rect = card.getBoundingClientRect();
+    const ox = ((rect.left + rect.width  / 2) / window.innerWidth  * 100).toFixed(1);
+    const oy = ((rect.top  + rect.height / 2) / window.innerHeight * 100).toFixed(1);
+    modal.style.transformOrigin = `${ox}% ${oy}%`;
+
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    setTimeout(() => { modal.style.transformOrigin = '50% 50%'; }, 450);
+  }
+
+  document.querySelectorAll<HTMLElement>('.member-card').forEach(card => {
+    card.addEventListener('click', () => openModal(parseInt(card.dataset.index ?? '0'), card));
+  });
+
+  modal.querySelector('.modal-backdrop')?.addEventListener('click', closeModal);
+  modal.querySelector('.modal-close')?.addEventListener('click', closeModal);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>

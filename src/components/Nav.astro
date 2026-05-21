@@ -1,4 +1,11 @@
 ---
+import { films } from "../data/films";
+
+const filmsByCategory = films.reduce((acc, film) => {
+  (acc[film.category] ??= []).push(film);
+  return acc;
+}, {} as Record<string, typeof films>);
+
 const links = [
   { label: "Work", href: "/work" },
   { label: "About", href: "/about" },
@@ -9,29 +16,31 @@ const socials = [
   {
     label: "YouTube",
     href: "https://youtube.com",
-    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>`,
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>`,
   },
   {
     label: "TikTok",
     href: "https://tiktok.com",
-    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.17 8.17 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>`,
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.17 8.17 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>`,
   },
   {
     label: "Instagram",
     href: "https://instagram.com",
-    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>`,
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>`,
   },
 ];
 
 const currentPath = Astro.url.pathname;
 ---
 
-<header>
+<header id="site-header">
   <nav>
     <a href="/" class="logo">
-      <img src="/logo.png" alt="New World Fool Productions" class="logo-img" />
+      <img src="/logo-cropped.png" alt="New World Fool Productions" class="logo-img" />
     </a>
-    <ul>
+
+    <!-- Desktop links -->
+    <ul class="desktop-links">
       {links.map(({ label, href }) => (
         <li>
           <a href={href} class={currentPath === href ? "active" : ""}>
@@ -46,25 +55,120 @@ const currentPath = Astro.url.pathname;
         </li>
       ))}
     </ul>
+
+    <!-- Hamburger button (mobile only) -->
+    <button class="hamburger" id="hamburger-btn" aria-label="Open menu" aria-expanded="false">
+      <span class="bar bar-top"></span>
+      <span class="bar bar-mid"></span>
+      <span class="bar bar-bot"></span>
+    </button>
   </nav>
 </header>
 
+<!-- Mobile menu overlay -->
+<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+  <nav class="mobile-nav">
+    <ul class="mobile-links">
+      <!-- Work with film dropdown -->
+      <li class="work-item">
+        <button class="work-toggle" id="work-toggle" aria-expanded="false">
+          <span>Work</span>
+          <svg class="work-chevron" width="14" height="8" viewBox="0 0 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="1,1 7,7 13,1"/>
+          </svg>
+        </button>
+        <ul class="work-dropdown" id="work-dropdown">
+          {Object.entries(filmsByCategory).map(([category, categoryFilms]) => (
+            <>
+              <li class="dropdown-category">{category}</li>
+              {categoryFilms.slice(0, 3).map(film => (
+                <li>
+                  <a href={`/films/${film.slug}`} class="dropdown-film">
+                    <span class="dropdown-title">{film.title}</span>
+                    <span class="dropdown-year">{film.year}</span>
+                  </a>
+                </li>
+              ))}
+              {categoryFilms.length > 3 && (
+                <li>
+                  <a href="/work" class="dropdown-see-more">
+                    Browse all {category}
+                    <svg width="1em" height="1em" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <line x1="1" y1="9" x2="9" y2="1"/>
+                      <polyline points="4,1 9,1 9,6"/>
+                    </svg>
+                  </a>
+                </li>
+              )}
+            </>
+          ))}
+        </ul>
+      </li>
+      <!-- About & Contact -->
+      {links.filter(l => l.label !== "Work").map(({ label, href }) => (
+        <li>
+          <a href={href} class={currentPath === href ? "active" : ""}>
+            {label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <div class="mobile-socials">
+      {socials.map(({ label, href, icon }) => (
+        <a href={href} target="_blank" rel="noopener noreferrer" aria-label={label} class="mobile-social" set:html={icon} />
+      ))}
+    </div>
+  </nav>
+</div>
+
 <style>
+  /* ── Header & nav shell ── */
   header {
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 100;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @media (max-width: 768px) {
+    header.nav-hidden {
+      transform: translateY(-120%);
+    }
   }
 
   nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #0A0A08;
-    padding: 0.2rem 2.5rem 0.2rem 0.2rem;
-    border-bottom: 1px solid #1a1a18;
+    background: rgba(10, 10, 8, 0.72);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    padding: 0.3rem 3.75rem 0.3rem 3.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 999px;
+    margin: 1.125rem 10% 0;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+    transition:
+      margin 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+      border-radius 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+      background 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
+  header.scrolled nav {
+    margin: 0;
+    border-radius: 0;
+    background: rgba(10, 10, 8, 0.88);
+    border-color: transparent;
+    border-bottom: 1px solid #1a1a18;
+    box-shadow: 0 4px 28px rgba(0, 0, 0, 0.5);
+  }
+
+  /* ── Logo ── */
   .logo {
     text-decoration: none;
     display: flex;
@@ -73,30 +177,31 @@ const currentPath = Astro.url.pathname;
     line-height: 1;
   }
 
-  .logo:hover {
-    opacity: 0.6;
-  }
+  .logo:hover { opacity: 0.6; }
 
   .logo-img {
-    height: 3.1rem;
+    height: 3.75rem;
     width: auto;
     display: block;
+    padding: 0.4rem 0;
   }
 
-  ul {
+  /* ── Desktop links ── */
+  .desktop-links {
     list-style: none;
     display: flex;
     align-items: center;
-    gap: 2rem;
+    gap: 3rem;
     margin: 0;
     padding: 0;
   }
 
-  ul a {
-    font-family: "DM Mono", monospace;
-    font-size: 0.75rem;
+  .desktop-links a {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.125rem;
     font-weight: 400;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     color: #F0ECE0;
     text-decoration: none;
     transition: color 0.2s;
@@ -105,10 +210,8 @@ const currentPath = Astro.url.pathname;
     line-height: 1;
   }
 
-  ul a:hover,
-  ul a.active {
-    color: #C8A96E;
-  }
+  .desktop-links a:hover,
+  .desktop-links a.active { color: #C8A96E; }
 
   .social {
     display: flex;
@@ -117,31 +220,347 @@ const currentPath = Astro.url.pathname;
     transition: color 0.2s;
   }
 
-  .social:hover {
-    color: #C8A96E;
-  }
+  .social:hover { color: #C8A96E; }
 
   .divider {
     width: 1px;
-    height: 0.9rem;
+    height: 1.35rem;
     background: #F0ECE040;
   }
 
-  @media (max-width: 640px) {
+  /* ── Hamburger button ── */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px 4px;
+    color: #F0ECE0;
+    transition: color 0.2s;
+  }
+
+  .hamburger:hover { color: #C8A96E; }
+
+  .bar {
+    display: block;
+    height: 2.5px;
+    border-radius: 2px;
+    background: currentColor;
+    transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.25s ease,
+                width 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .bar-top { width: 26px; }
+  .bar-mid { width: 18px; }   /* shorter — left-side trimmed */
+  .bar-bot { width: 26px; }
+
+  /* Morph to × when open */
+  .hamburger.open .bar-top {
+    width: 26px;
+    transform: translateY(7.5px) rotate(45deg);
+  }
+  .hamburger.open .bar-mid {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  .hamburger.open .bar-bot {
+    width: 26px;
+    transform: translateY(-7.5px) rotate(-45deg);
+  }
+
+  /* ── Mobile overlay menu ── */
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 99;
+    background: #0A0A08;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding-top: 4.35rem;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-100%);
+    transition: opacity 0.38s ease, transform 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .mobile-menu.open {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(0);
+  }
+
+  .mobile-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2.5rem;
+    width: 100%;
+    padding: 2rem 1.25rem;
+  }
+
+  .mobile-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .mobile-links > li {
+    width: 100%;
+    border-top: 1px solid rgba(240, 236, 224, 0.1);
+    border-bottom: 1px solid rgba(240, 236, 224, 0.1);
+    padding: 1rem 0;
+  }
+
+  .mobile-links > li:first-child {
+    border-top: none;
+  }
+
+  .mobile-links > li + li {
+    border-top: none;
+  }
+
+
+  .mobile-links a {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 2.25rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(240, 236, 224, 0.85);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .mobile-links a:hover,
+  .mobile-links a.active { color: #C8A96E; }
+
+  .mobile-divider {
+    width: 40px;
+    height: 1px;
+    background: rgba(200, 169, 110, 0.3);
+  }
+
+  .mobile-socials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    width: 100%;
+  }
+
+  .mobile-social {
+    color: #F0ECE0;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s;
+  }
+
+  .mobile-social:hover { color: #C8A96E; }
+
+  .mobile-social svg {
+    width: 90px;
+    height: 90px;
+  }
+
+  /* ── Work dropdown ── */
+  .work-item {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .work-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 2.25rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(240, 236, 224, 0.85);
+    transition: color 0.2s;
+  }
+
+  .work-toggle:hover { color: #C8A96E; }
+
+  .work-chevron {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
+    margin-top: 0.2em;
+  }
+
+  .work-toggle.open .work-chevron {
+    transform: rotate(180deg);
+  }
+
+  .work-dropdown {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .work-dropdown.open {
+    max-height: 600px;
+  }
+
+  .dropdown-category {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(200, 169, 110, 0.7);
+    padding: 0.75rem 0 0.4rem;
+  }
+
+  .dropdown-film {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    padding: 0.45rem 0;
+    text-decoration: none;
+    transition: color 0.2s;
+    color: rgba(240, 236, 224, 0.72);
+  }
+
+  .dropdown-film:hover { color: #C8A96E; }
+
+  .dropdown-title {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.25rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .dropdown-year {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    color: rgba(240, 236, 224, 0.35);
+  }
+
+  .work-dropdown .dropdown-see-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.55rem 0 0.2rem;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(240, 236, 224, 0.72);
+    text-decoration: underline;
+    text-decoration-color: rgba(240, 236, 224, 0.45);
+    text-underline-offset: 4px;
+    transition: color 0.2s;
+  }
+
+  .work-dropdown .dropdown-see-more:hover { color: rgba(240, 236, 224, 1); }
+
+  /* ── Responsive breakpoint ── */
+  @media (max-width: 768px) {
     nav {
-      padding: 0.2rem 1rem 0.2rem 0.2rem;
+      margin: 0;
+      border-radius: 0;
+      padding: 0.3rem 1.25rem;
+      border-left: none;
+      border-right: none;
     }
 
-    .logo-img {
-      height: 2.5rem;
-    }
-
-    ul {
-      gap: 1rem;
-    }
-
-    ul a {
-      font-size: 0.65rem;
-    }
+    .desktop-links { display: none; }
+    .hamburger { display: flex; }
   }
 </style>
+
+<script>
+  (() => {
+    const header   = document.querySelector('#site-header') as HTMLElement;
+    const btn      = document.querySelector('#hamburger-btn') as HTMLButtonElement | null;
+    const menu     = document.querySelector('#mobile-menu') as HTMLElement | null;
+    if (!header) return;
+
+    const isHome = ['/', ''].includes(window.location.pathname);
+    let menuOpen = false;
+    let lastY    = window.scrollY;
+
+    // ── Scrolled appearance ──
+    function updateScrolled() {
+      const past = !isHome || window.scrollY > window.innerHeight * 0.4;
+      header.classList.toggle('scrolled', past);
+    }
+
+    // ── Hide / show on scroll direction ──
+    function updateVisibility() {
+      if (menuOpen) return;
+      const y = window.scrollY;
+      if (y < 80) {
+        header.classList.remove('nav-hidden');
+      } else if (y > lastY + 4) {
+        header.classList.add('nav-hidden');
+      } else if (y < lastY - 4) {
+        header.classList.remove('nav-hidden');
+      }
+      lastY = y;
+    }
+
+    window.addEventListener('scroll', () => {
+      updateScrolled();
+      updateVisibility();
+    }, { passive: true });
+
+    updateScrolled();
+
+    // ── Hamburger toggle ──
+    function openMenu() {
+      menuOpen = true;
+      btn?.classList.add('open');
+      btn?.setAttribute('aria-expanded', 'true');
+      menu?.classList.add('open');
+      menu?.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      header.classList.remove('nav-hidden');
+    }
+
+    function closeMenu() {
+      menuOpen = false;
+      btn?.classList.remove('open');
+      btn?.setAttribute('aria-expanded', 'false');
+      menu?.classList.remove('open');
+      menu?.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    btn?.addEventListener('click', () => menuOpen ? closeMenu() : openMenu());
+
+    // Close when a menu link is clicked (excluding dropdown links — those navigate)
+    menu?.querySelectorAll('a:not(.dropdown-film)').forEach(a => a.addEventListener('click', closeMenu));
+    menu?.querySelectorAll('.dropdown-film').forEach(a => a.addEventListener('click', closeMenu));
+
+    // ── Work dropdown ──
+    const workToggle = document.querySelector('#work-toggle') as HTMLButtonElement | null;
+    const workDropdown = document.querySelector('#work-dropdown') as HTMLElement | null;
+
+    workToggle?.addEventListener('click', () => {
+      const isOpen = workToggle.getAttribute('aria-expanded') === 'true';
+      workToggle.setAttribute('aria-expanded', String(!isOpen));
+      workToggle.classList.toggle('open', !isOpen);
+      workDropdown?.classList.toggle('open', !isOpen);
+    });
+  })();
+</script>

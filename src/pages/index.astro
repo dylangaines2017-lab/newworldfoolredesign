@@ -1,6 +1,43 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import ProjectAccordion from "../components/ProjectAccordion.astro";
+
+const ethosBurstRays = Array.from({ length: 30 }, (_, i) => {
+  const angleDeg = 4 + (i / 29) * 172;
+  const angleRad = (angleDeg * Math.PI) / 180;
+  const len = 1100;
+  return {
+    x2: +(600 + Math.cos(angleRad) * len).toFixed(1),
+    y2: +(Math.sin(angleRad) * len).toFixed(1),
+  };
+});
+const ethosArcs = [90, 190, 300, 420, 555, 700];
+
+const laurels = [
+  "/laurels/ArizonaIntl.png",
+  "/laurels/AutumnsDawn2025.png",
+  "/laurels/AutumnsDawnBestEditing.png",
+  "/laurels/AutumnsDawnBestFilm.png",
+  "/laurels/AutumnsDawnBestSound.png",
+  "/laurels/AutumnsDawnMostCreative.png",
+  "/laurels/BHFF.webp",
+  "/laurels/BigApple2024.png",
+  "/laurels/BigAppleWhiteLaurels-scaled.png",
+  "/laurels/BridgesIFF2024.png",
+  "/laurels/CYIFF_laurel_black__OFFICIAL_SELECTION-transparent.png",
+  "/laurels/ChicagoHorror2025.png",
+  "/laurels/CyprusGoldenAphrodite2025.png",
+  "/laurels/JerseyShore2025.png",
+  "/laurels/LaurelWreath2025.png",
+  "/laurels/NJ4thWallFilmFestivalLaurelsWhiteNoBackground.png",
+  "/laurels/NJHorrorCon2025.png",
+  "/laurels/NJMystery2025.png",
+  "/laurels/NYCHorror2025.png",
+  "/laurels/NYLiftOff2025.png",
+  "/laurels/NYSciFiHorror2025.png",
+  "/laurels/Official-Selection-White.png",
+  "/laurels/UnforeseenLaurelWhite.png",
+];
 ---
 
 <Layout title="New World Fool Productions">
@@ -9,12 +46,26 @@ import ProjectAccordion from "../components/ProjectAccordion.astro";
     <div class="jester-video-bg">
       <iframe
         id="vimeo-bg"
-        src="https://player.vimeo.com/video/1180320748?background=1&autoplay=1&loop=1&muted=1&byline=0&title=0"
+        src="https://player.vimeo.com/video/1190989163?h=2950c25315&background=1&autoplay=1&loop=1&muted=1&byline=0&title=0"
         style="border:0"
         allow="autoplay; fullscreen"
         title=""
       ></iframe>
       <div class="jester-video-overlay"></div>
+      <div class="jester-grain-overlay" aria-hidden="true"></div>
+      <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+        <defs>
+          <filter id="grain-filter" x="0%" y="0%" width="100%" height="100%" color-interpolation-filters="linearRGB">
+            <feTurbulence type="fractalNoise" baseFrequency="0.62 0.68" numOctaves="4" seed="0" stitchTiles="stitch" result="noise"/>
+            <feColorMatrix type="saturate" values="0" in="noise" result="gray"/>
+            <feComponentTransfer in="gray">
+              <feFuncR type="linear" slope="4.5" intercept="-1.2"/>
+              <feFuncG type="linear" slope="4.5" intercept="-1.2"/>
+              <feFuncB type="linear" slope="4.5" intercept="-1.2"/>
+            </feComponentTransfer>
+          </filter>
+        </defs>
+      </svg>
     </div>
 
     <!-- Loading overlay -->
@@ -22,10 +73,10 @@ import ProjectAccordion from "../components/ProjectAccordion.astro";
       <img src="/logo.png" alt="" class="loader-logo" />
     </div>
 
-    <section class="video-cta">
-      <a href="/work" class="work-link">
-        <span class="work-label">Our Work &rsaquo;</span>
-      </a>
+    <section class="hero-text">
+      <span class="hero-word">Unfiltered,</span>
+      <span class="hero-word">Contemporary,</span>
+      <span class="hero-word hero-cinema">Cinema.</span>
     </section>
 
     <div class="scroll-hint" aria-hidden="true">
@@ -40,13 +91,56 @@ import ProjectAccordion from "../components/ProjectAccordion.astro";
 
   <!-- 3. Ethos + BTS (bottom — no arrow) -->
   <div class="ethos-bts-panel snap-section">
+    <div class="ethos-deco" aria-hidden="true">
+      <svg class="ethos-deco-svg" viewBox="0 0 1200 1080" preserveAspectRatio="xMidYMin slice" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="ethos-diamond" width="36" height="36" patternUnits="userSpaceOnUse">
+            <path d="M18 0 L36 18 L18 36 L0 18 Z" fill="none" stroke="#C8A96E" stroke-width="0.7"/>
+          </pattern>
+          <radialGradient id="ethos-ray-fade" cx="50%" cy="0%" r="90%" gradientUnits="objectBoundingBox">
+            <stop offset="0%" stop-color="white" stop-opacity="1"/>
+            <stop offset="60%" stop-color="white" stop-opacity="0.4"/>
+            <stop offset="100%" stop-color="white" stop-opacity="0"/>
+          </radialGradient>
+          <mask id="ethos-ray-mask">
+            <rect width="1200" height="1080" fill="url(#ethos-ray-fade)"/>
+          </mask>
+          <radialGradient id="ethos-gold-glow" cx="50%" cy="0%" r="70%" gradientUnits="objectBoundingBox">
+            <stop offset="0%" stop-color="#C8A96E" stop-opacity="0.10"/>
+            <stop offset="100%" stop-color="#C8A96E" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+
+        <!-- Diamond lattice -->
+        <rect width="1200" height="1080" fill="url(#ethos-diamond)" opacity="0.10"/>
+
+        <!-- Sunburst rays + concentric arcs, fading outward -->
+        <g mask="url(#ethos-ray-mask)">
+          {ethosBurstRays.map(({ x2, y2 }) => (
+            <line x1="600" y1="0" x2={x2} y2={y2} stroke="#C8A96E" stroke-width="0.7" opacity="0.22"/>
+          ))}
+          {ethosArcs.map((r) => (
+            <path d={`M ${600 - r} 0 A ${r} ${r} 0 0 1 ${600 + r} 0`} fill="none" stroke="#C8A96E" stroke-width="1" opacity="0.28"/>
+          ))}
+        </g>
+
+        <!-- Soft gold vignette from top -->
+        <rect width="1200" height="1080" fill="url(#ethos-gold-glow)"/>
+      </svg>
+    </div>
     <section class="ethos">
       <div class="ethos-left">
-        <span>our ethos</span>
+        <span class="ethos-heading">§ Our <em>ethos.</em></span>
       </div>
       <div class="ethos-right">
         <p>The court jester was the only figure in medieval society permitted to speak truth to power. <span class="gold">We carry that ancient tradition into the modern day through cinema.</span></p>
-        <a href="/about" class="ethos-link">Learn our story &rsaquo;</a>
+        <a href="/about" class="ethos-link">
+          <span class="ethos-link-label">Learn our story</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ethos-link-arrow" aria-hidden="true">
+            <path d="M7 7h10v10"/>
+            <path d="M7 17 17 7"/>
+          </svg>
+        </a>
       </div>
     </section>
 
@@ -92,9 +186,97 @@ import ProjectAccordion from "../components/ProjectAccordion.astro";
       </div>
     </section>
   </div>
+
+  <!-- 4. Contact -->
+  <div class="contact-panel snap-section">
+    <div class="contact-main">
+
+      <div class="contact-left">
+        <h2 class="contact-heading">Let's make<br/><em>something foolish.</em></h2>
+        <p class="contact-body">We're always looking for kindred filmmakers, writers, financiers, and producing partners willing to back stories the polite world won't. If any of the below sounds like you, the door is unlocked.</p>
+        <ul class="contact-list">
+          <li>✦ Financiers &amp; equity partners</li>
+          <li>✦ Co-producers &amp; production cos.</li>
+          <li>✦ Writers, directors, crew</li>
+          <li>✦ Festivals, sales &amp; distribution</li>
+        </ul>
+        <a href="mailto:hello@newworldfoolproductions.com" class="contact-email">
+          hello@newworldfoolproductions.com
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="contact-email-arrow" aria-hidden="true">
+            <path d="M7 7h10v10"/>
+            <path d="M7 17 17 7"/>
+          </svg>
+        </a>
+      </div>
+
+      <div class="contact-right">
+        <div class="contact-item">
+          <span class="contact-label">Financing &amp; Slate</span>
+          <a href="mailto:invest@newworldfoolproductions.com" class="contact-value-link">invest@newworldfoolproductions.com</a>
+        </div>
+        <div class="contact-item">
+          <span class="contact-label">Festivals &amp; Press</span>
+          <a href="mailto:press@newworldfoolproductions.com" class="contact-value-link">press@newworldfoolproductions.com</a>
+        </div>
+        <div class="contact-item">
+          <span class="contact-label">Court in residence</span>
+          <span class="contact-value">Brooklyn, NY</span>
+        </div>
+        <div class="contact-item">
+          <span class="contact-label">Eavesdrop</span>
+          <div class="contact-socials">
+            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="contact-social">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            </a>
+            <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" aria-label="TikTok" class="contact-social">
+              <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.17 8.17 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>
+            </a>
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="contact-social">
+              <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="laurel-scroll">
+      <div class="laurel-track">
+        {[...laurels, ...laurels].map((src) => (
+          <img src={src} alt="" class="laurel-img" aria-hidden="true" />
+        ))}
+      </div>
+    </div>
+
+    <!-- Joker cards -->
+    <div class="joker-cards" aria-hidden="true">
+      <img src="/Joker_card.png" class="joker-card" style="z-index: 1;" alt="" />
+      <img src="/Joker_card.png" class="joker-card" style="z-index: 2;" alt="" />
+    </div>
+
+  </div>
+
 </Layout>
 
 <script>
+  // Animate film grain — cycles feTurbulence seed at ~18fps
+  (() => {
+    const turbulence = document.querySelector<SVGFETurbulenceElement>('#grain-filter feTurbulence');
+    if (!turbulence) return;
+    let seed = 0;
+    let last = 0;
+    const STEP = 1000 / 14;
+    function tick(t: number) {
+      if (t - last >= STEP) {
+        seed = (seed + 1) % 800;
+        turbulence!.setAttribute('seed', String(seed));
+        last = t;
+      }
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  })();
+
   // Fade out the loading overlay once the Vimeo iframe fires its load event.
   // Falls back to a max wait of 4s so it never hangs indefinitely.
   (() => {
@@ -167,13 +349,15 @@ import ProjectAccordion from "../components/ProjectAccordion.astro";
       if (next !== cur) snapTo(sections[next]);
     }, { passive: true });
   })();
+
 </script>
 
 <style>
   /* ── Video panel ── */
   .jester-panel {
     position: relative;
-    height: calc(100svh - 3.5rem);
+    height: 100svh;
+    margin-top: -4.35rem;
     scroll-snap-align: start;
     scroll-snap-stop: always;
     display: flex;
@@ -203,40 +387,49 @@ import ProjectAccordion from "../components/ProjectAccordion.astro";
   .jester-video-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.55);
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0.0) 0%, rgba(0,0,0,0.78) 100%);
+  }
+
+  .jester-grain-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    filter: url(#grain-filter);
+    opacity: 0.38;
+    mix-blend-mode: overlay;
+  }
+
+  /* ── Hero text ── */
+  .hero-text {
+    position: absolute;
+    bottom: 4.5rem;
+    left: 2.5rem;
+    z-index: 1;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    line-height: 0.88;
+  }
+
+  .hero-word {
+    display: block;
+    font-family: "Instrument Serif", serif;
+    font-size: clamp(5.25rem, 12vw, 12rem);
+    font-weight: 300;
+    color: #F0ECE0;
+    letter-spacing: -0.01em;
+  }
+
+  .hero-cinema {
+    font-style: italic;
+    background: linear-gradient(to right, #C8A96E, #F0D98A, #C8A96E);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 
   /* Our Work button — right-aligned, vertically centered */
-  .video-cta {
-    position: relative;
-    z-index: 1;
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding: 0 2.5rem;
-  }
-
-  .work-link {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: #C8A96E;
-    transition: opacity 0.2s;
-    border: 1px solid rgba(200, 169, 110, 0.45);
-    padding: 0.9rem 2.5rem;
-  }
-
-  .work-link:hover {
-    opacity: 0.7;
-  }
-
-  .work-label {
-    font-family: "DM Mono", monospace;
-    font-size: 0.85rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-  }
 
   /* Scroll hint arrow */
   .scroll-hint {
@@ -244,7 +437,7 @@ import ProjectAccordion from "../components/ProjectAccordion.astro";
     bottom: 1.5rem;
     left: 50%;
     transform: translateX(-50%);
-    color: rgba(240, 236, 224, 0.35);
+    color: rgba(240, 236, 224, 0.55);
     animation: bounce 2s ease-in-out infinite;
     pointer-events: none;
     z-index: 2;
@@ -257,6 +450,7 @@ import ProjectAccordion from "../components/ProjectAccordion.astro";
 
   /* ── Ethos + BTS panel ── */
   .ethos-bts-panel {
+    position: relative;
     height: calc(100svh - 3.5rem);
     scroll-snap-align: start;
     scroll-snap-stop: always;
@@ -267,6 +461,7 @@ import ProjectAccordion from "../components/ProjectAccordion.astro";
   }
 
   .ethos {
+    position: relative;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
@@ -275,46 +470,106 @@ import ProjectAccordion from "../components/ProjectAccordion.astro";
     padding: 3rem 2.5rem;
   }
 
-  .ethos-left {
-    display: flex;
-    align-items: flex-start;
+  .ethos-deco {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
   }
 
-  .ethos-left span {
-    font-family: "DM Mono", monospace;
-    font-size: 1.5rem;
-    letter-spacing: 0.1em;
+  .ethos-deco-svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .ethos-left {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .ethos-right {
+    position: relative;
+    z-index: 1;
+  }
+
+  .ethos-heading {
+    font-family: "Instrument Serif", serif;
+    font-size: 6rem;
     color: #F0ECE0;
-    text-transform: lowercase;
+    line-height: 1.1;
+  }
+
+  .ethos-heading em {
+    font-style: italic;
+    background: linear-gradient(to right, #C8A96E, #F0D98A, #C8A96E);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .ethos-logo-spin {
+    width: 20.25rem;
+    height: auto;
+    margin-left: 4rem;
+    animation: spin-logo 8s linear infinite;
+  }
+
+  @keyframes spin-logo {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(-360deg); }
   }
 
   .ethos-right p {
-    font-family: "Cormorant Garamond", serif;
-    font-size: clamp(1.2rem, 2vw, 1.75rem);
+    font-size: clamp(1.8rem, 3vw, 2.625rem);
     font-weight: 300;
     color: #F0ECE0;
-    line-height: 1.6;
+    line-height: 1.35;
     letter-spacing: 0.01em;
   }
 
   .ethos-right p .gold {
     color: #C8A96E;
+    font-weight: 500;
   }
 
   .ethos-link {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
     margin-top: 1.5rem;
-    font-family: "DM Mono", monospace;
-    font-size: 1.5rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #C8A96E;
     text-decoration: none;
-    transition: opacity 0.2s;
+    color: #C8A96E;
+    border: 2px solid #C8A96E;
+    border-radius: 0.5rem;
+    padding: 0.85rem 2.5rem;
+    background: linear-gradient(to right, #C8A96E 50%, #1C1C18 50%);
+    background-size: 200% 100%;
+    background-position: 100% 0;
+    transition: background-position 0.5s ease, color 0.3s ease;
   }
 
   .ethos-link:hover {
-    opacity: 0.7;
+    background-position: 0% 0;
+    color: #0A0A08;
+  }
+
+  .ethos-link-label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.275rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .ethos-link-arrow {
+    transition: transform 0.2s ease;
+  }
+
+  .ethos-link:hover .ethos-link-arrow {
+    transform: translate(2px, -2px);
   }
 
   /* ── BTS ── */
@@ -322,9 +577,9 @@ import ProjectAccordion from "../components/ProjectAccordion.astro";
     flex: 2;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-end;
     overflow: hidden;
-    padding: 2rem 0;
+    padding: 1rem 0 0;
   }
 
   .bts-rows {
@@ -332,7 +587,8 @@ import ProjectAccordion from "../components/ProjectAccordion.astro";
     flex-direction: column;
     gap: 1rem;
     flex: 1;
-    justify-content: center;
+    justify-content: flex-end;
+    padding-bottom: 2rem;
   }
 
   .bts-row {
@@ -398,20 +654,331 @@ import ProjectAccordion from "../components/ProjectAccordion.astro";
   }
 
   @media (max-width: 640px) {
-    .bts-rows {
-      justify-content: center;
+    .ethos {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      padding-bottom: 1rem;
+    }
+
+    .ethos-heading {
+      font-size: 3.5rem;
+    }
+
+    .ethos-link {
+      padding: 0.53rem 1.56rem;
+      gap: 0.47rem;
+      border-width: 1px;
+    }
+
+    .ethos-link-label {
+      font-size: 0.8rem;
+    }
+
+    .ethos-link-arrow {
+      width: 13px;
+      height: 13px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .ethos-bts-panel {
+      height: calc(100svh - 3.5rem);
+      background: #0A0A08;
+      overflow: hidden;
+    }
+
+    .bts {
+      overflow: hidden;
+    }
+
+    .bts-row {
+      will-change: auto;
+      height: 10rem;
     }
 
     .bts-row--right {
       display: none;
     }
 
-    .bts-row {
-      height: 10rem;
+    .bts-rows {
+      justify-content: center;
+      padding-bottom: 0.5rem;
     }
 
     .bts-photo {
       aspect-ratio: 4 / 3;
+    }
+  }
+
+  /* ── Contact panel ── */
+  .contact-panel {
+    position: relative;
+    height: calc(100svh - 3.5rem);
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid #1a1a18;
+    overflow: hidden;
+    clip-path: inset(0);
+    background: #0A0A08;
+  }
+
+  /* ── Joker cards ── */
+  .joker-cards {
+    position: absolute;
+    right: 10rem;
+    bottom: 15rem;
+    width: 268px;
+    height: 399px;
+    pointer-events: auto;
+    z-index: 3;
+  }
+
+  .joker-card {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow:
+      0 28px 72px rgba(0, 0, 0, 0.7),
+      0 8px 24px rgba(0, 0, 0, 0.5),
+      0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+  }
+
+  /* Back card */
+  .joker-card:first-child {
+    transform: rotate(13deg) translate(22px, -8px);
+  }
+
+  .joker-card:first-child:hover {
+    transform: rotate(13deg) translate(34px, -20px);
+    box-shadow:
+      0 40px 90px rgba(0, 0, 0, 0.75),
+      0 16px 36px rgba(0, 0, 0, 0.55),
+      0 4px 12px rgba(0, 0, 0, 0.35);
+  }
+
+  /* Front card */
+  .joker-card:last-child {
+    transform: rotate(-3deg);
+  }
+
+  .joker-card:last-child:hover {
+    transform: rotate(-3deg) translateY(-12px);
+    box-shadow:
+      0 40px 90px rgba(0, 0, 0, 0.75),
+      0 16px 36px rgba(0, 0, 0, 0.55),
+      0 4px 12px rgba(0, 0, 0, 0.35);
+  }
+
+  .contact-main {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    padding: 3rem 2.5rem;
+    align-content: center;
+    min-height: 0;
+  }
+
+  .contact-heading {
+    font-family: "Instrument Serif", serif;
+    font-size: clamp(3.6rem, 6.75vw, 6.3rem);
+    font-weight: 400;
+    line-height: 1.05;
+    color: #F0ECE0;
+    margin-bottom: 1.5rem;
+  }
+
+  .contact-heading em {
+    font-style: italic;
+    background: linear-gradient(to right, #C8A96E, #F0D98A, #C8A96E);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .contact-body {
+    font-size: clamp(1.5rem, 2.1vw, 1.8rem);
+    line-height: 1.65;
+    color: #F0ECE0;
+    margin-bottom: 1.5rem;
+    max-width: 52ch;
+  }
+
+  .contact-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-bottom: 2rem;
+  }
+
+  .contact-list li {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.2rem;
+    letter-spacing: 0.08em;
+    color: rgba(240, 236, 224, 0.6);
+    text-transform: uppercase;
+  }
+
+  .contact-email {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.35rem;
+    letter-spacing: 0.05em;
+    color: #C8A96E;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-color: rgba(200, 169, 110, 0.35);
+    transition: text-decoration-color 0.2s;
+  }
+
+  .contact-email:hover {
+    text-decoration-color: #C8A96E;
+  }
+
+  .contact-email-arrow {
+    transition: transform 0.2s ease;
+  }
+
+  .contact-email:hover .contact-email-arrow {
+    transform: translate(2px, -2px);
+  }
+
+  .contact-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 2rem;
+    border-left: 1px solid #1a1a18;
+    padding-left: 4rem;
+  }
+
+  .contact-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .contact-label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.9rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(240, 236, 224, 0.5);
+  }
+
+  .contact-value {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.65rem;
+    color: #F0ECE0;
+  }
+
+  .contact-value-link {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.2rem;
+    letter-spacing: 0.03em;
+    color: #F0ECE0;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .contact-value-link:hover {
+    color: #C8A96E;
+  }
+
+  .contact-socials {
+    display: flex;
+    gap: 1.25rem;
+    align-items: center;
+  }
+
+  .contact-social {
+    color: rgba(240, 236, 224, 0.65);
+    display: flex;
+    align-items: center;
+    transition: color 0.2s;
+  }
+
+  .contact-social svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  .contact-social:hover {
+    color: #C8A96E;
+  }
+
+  /* ── Laurel scroll ── */
+  .laurel-scroll {
+    flex-shrink: 1;
+    min-height: 0;
+    overflow: hidden;
+    border-top: 1px solid #1a1a18;
+    padding: 1.5rem 0;
+    background: rgba(200, 169, 110, 0.03);
+  }
+
+  .laurel-track {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    width: max-content;
+    animation: laurel-left 60s linear infinite;
+  }
+
+  @keyframes laurel-left {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  .laurel-img {
+    height: 7rem;
+    width: auto;
+    flex-shrink: 0;
+    filter: brightness(0) invert(1);
+    opacity: 0.5;
+  }
+
+  @media (max-width: 640px) {
+    .joker-cards {
+      display: none;
+    }
+
+    .contact-panel {
+      height: auto;
+      overflow: visible;
+    }
+
+    .contact-main {
+      grid-template-columns: 1fr;
+      padding: 2rem 2.5rem;
+      gap: 2.5rem;
+      align-content: start;
+    }
+
+    .contact-email {
+      font-size: 1.2rem;
+    }
+
+    .contact-right {
+      border-left: none;
+      padding-left: 0;
+      border-top: 1px solid #1a1a18;
+      padding-top: 2rem;
+    }
+
+    .contact-list li {
+      font-size: 0.9rem;
+    }
+
+    .laurel-img {
+      height: 5rem;
     }
   }
 </style>

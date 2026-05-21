@@ -1,7 +1,7 @@
 ---
 const projects = [
   {
-    index: "01",
+    index: "I",
     title: "Piggy",
     year: "2025",
     category: "Short Film",
@@ -11,7 +11,7 @@ const projects = [
     href: "/films/piggy",
   },
   {
-    index: "02",
+    index: "II",
     title: "Mukbang’d",
     year: "2025",
     category: "Short Film",
@@ -21,7 +21,7 @@ const projects = [
     href: "/films/mukbangd",
   },
   {
-    index: "03",
+    index: "III",
     title: "Unforeseen",
     year: "2025",
     category: "Short Film",
@@ -31,7 +31,7 @@ const projects = [
     href: "/films/unforeseen",
   },
   {
-    index: "04",
+    index: "IV",
     title: "The Hunter",
     year: "2024",
     category: "Short Film",
@@ -44,28 +44,42 @@ const projects = [
 ---
 
 <section class="accordion">
-  {projects.map((p) => (
-    <a href={p.href} class="project" aria-label={p.title}>
-      <img src={p.image} alt={p.title} class="bg" />
-      <div class="overlay" />
-
-      <!-- Shown when collapsed -->
-      <div class="collapsed-info">
-        <span class="rotated-label"><span class="rotated-title">{p.title}</span>&ensp;<span class="rotated-year">{p.year}</span></span>
-      </div>
-
-      <!-- Shown when expanded -->
-      <div class="expanded-info">
-        <span class="index">{p.index}</span>
-        <div class="details">
-          <span class="meta">{p.year}&nbsp;·&nbsp;{p.category}</span>
-          <h2 class="title">{p.title}</h2>
-          <p class="description">{p.description}</p>
-          <span class="director">dir. {p.director}</span>
-        </div>
-      </div>
+  <div class="accordion-header">
+    <h2 class="accordion-title">✦ Selected <em>follies.</em></h2>
+    <a href="/work" class="work-link">
+      <span class="work-label">Browse Our Catalogue</span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="work-arrow" aria-hidden="true">
+        <path d="M7 7h10v10"/>
+        <path d="M7 17 17 7"/>
+      </svg>
     </a>
-  ))}
+  </div>
+
+
+  <div class="accordion-panels">
+    {projects.map((p) => (
+      <a href={p.href} class="project" aria-label={p.title}>
+        <img src={p.image} alt={p.title} class="bg" />
+        <div class="overlay" />
+
+        <!-- Shown when collapsed -->
+        <div class="collapsed-info">
+          <span class="rotated-label"><span class="rotated-title">{p.title}</span>&ensp;<span class="rotated-year">{p.year}</span></span>
+        </div>
+
+        <!-- Shown when expanded -->
+        <div class="expanded-info">
+          <span class="index">{p.index}</span>
+          <div class="details">
+            <span class="meta">{p.year}&nbsp;·&nbsp;{p.category}</span>
+            <h2 class="title">{p.title}</h2>
+            <p class="description">{p.description}</p>
+            <span class="director">dir. {p.director}</span>
+          </div>
+        </div>
+      </a>
+    ))}
+  </div>
 
   <div class="scroll-hint" aria-hidden="true">
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -78,10 +92,93 @@ const projects = [
   .accordion {
     position: relative;
     display: flex;
+    flex-direction: column;
     height: calc(100svh - 3.5rem);
-    gap: 2px;
     scroll-snap-align: start;
     scroll-snap-stop: always;
+  }
+
+  .accordion-header {
+    flex-shrink: 0;
+    padding: 1.25rem 2rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .accordion-title {
+    font-family: "Instrument Serif", serif;
+    font-size: clamp(3.55rem, 8.1vw, 8.1rem);
+    font-weight: 400;
+    color: #F0ECE0;
+    letter-spacing: 0.01em;
+    line-height: 1;
+  }
+
+  .accordion-title em {
+    font-style: italic;
+    background: linear-gradient(to right, #C8A96E, #F0D98A, #C8A96E);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .work-link {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: #C8A96E;
+    border: 2px solid #C8A96E;
+    border-radius: 0.5rem;
+    padding: 0.85rem 2.5rem;
+    background: linear-gradient(to right, #C8A96E 50%, #1C1C18 50%);
+    background-size: 200% 100%;
+    background-position: 100% 0;
+    transition: background-position 0.5s ease, color 0.3s ease;
+  }
+
+  .work-link:hover {
+    background-position: 0% 0;
+    color: #0A0A08;
+  }
+
+  .work-label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.275rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .work-arrow {
+    transition: transform 0.2s ease;
+  }
+
+  .work-link:hover .work-arrow {
+    transform: translate(2px, -2px);
+  }
+
+  .accordion-panels {
+    flex: 1;
+    display: flex;
+    gap: 2px;
+    margin: 0 1.5rem 1.5rem;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    min-height: 0;
+    position: relative;
+  }
+
+  .accordion-panels::after {
+    content: '';
+    position: absolute;
+    inset: 14px;
+    border-radius: 0.5rem;
+    border: 2px solid rgba(200, 169, 110, 0.7);
+    pointer-events: none;
+    z-index: 10;
+    box-sizing: border-box;
   }
 
   /* --- Panel sizing --- */
@@ -101,12 +198,12 @@ const projects = [
     flex: 4;
   }
 
-  /* When accordion is hovered, collapse first panel unless it's being hovered */
-  .accordion:hover .project:first-child {
+  /* Collapse first panel only when another panel is actively hovered */
+  .accordion:has(.project:not(:first-child):hover) .project:first-child {
     flex: 0.4;
   }
 
-  .accordion:hover .project:hover {
+  .accordion .project:not(:first-child):hover {
     flex: 4;
   }
 
@@ -147,7 +244,7 @@ const projects = [
     white-space: nowrap;
     writing-mode: vertical-rl;
     transform: rotate(180deg);
-    font-family: "Bebas Neue", sans-serif;
+    font-family: "Instrument Serif", serif;
   }
 
   .rotated-title {
@@ -165,14 +262,15 @@ const projects = [
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 1.5rem;
+    padding: 1.5rem 1.5rem 4rem 2.5rem;
     opacity: 0;
     transition: opacity 0.3s ease;
   }
 
   .index {
-    font-family: "DM Mono", monospace;
-    font-size: 0.7rem;
+    font-family: "Instrument Serif", serif;
+    font-size: 4.2rem;
+    font-style: italic;
     color: rgba(255,255,255,0.35);
     letter-spacing: 0.08em;
   }
@@ -184,7 +282,7 @@ const projects = [
   }
 
   .meta {
-    font-family: "DM Mono", monospace;
+    font-family: "JetBrains Mono", monospace;
     font-size: 0.975rem;
     color: #C8A96E;
     letter-spacing: 0.08em;
@@ -194,7 +292,7 @@ const projects = [
   }
 
   .title {
-    font-family: "Bebas Neue", sans-serif;
+    font-family: "Instrument Serif", serif;
     font-size: clamp(6rem, 9vw, 10.5rem);
     font-weight: 400;
     color: #F0ECE0;
@@ -203,18 +301,18 @@ const projects = [
   }
 
   .description {
-    font-family: "Cormorant Garamond", serif;
-    font-size: 1.08rem;
+    font-size: 1.62rem;
     color: rgba(255,255,255,0.55);
     line-height: 1.6;
     max-width: 55ch;
+    margin-top: 1rem;
     transform: translateY(8px);
     transition: transform 0.3s ease 0.15s;
   }
 
   .director {
-    font-family: "DM Mono", monospace;
-    font-size: 0.7rem;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.05rem;
     letter-spacing: 0.08em;
     color: #C8A96E;
     text-transform: lowercase;
@@ -226,19 +324,24 @@ const projects = [
   .project:first-child .collapsed-info { opacity: 0; }
   .project:first-child .expanded-info  { opacity: 1; }
 
-  /* When accordion is hovered, revert first child */
-  .accordion:hover .project:first-child .collapsed-info { opacity: 1; }
-  .accordion:hover .project:first-child .expanded-info  { opacity: 0; }
+  /* Revert first child only when another panel is hovered */
+  .accordion:has(.project:not(:first-child):hover) .project:first-child .collapsed-info { opacity: 1; }
+  .accordion:has(.project:not(:first-child):hover) .project:first-child .expanded-info  { opacity: 0; }
 
-  /* Hovered panel gets expanded state */
-  .accordion:hover .project:hover .collapsed-info { opacity: 0; }
-  .accordion:hover .project:hover .expanded-info  { opacity: 1; }
+  /* Hovered non-first panel gets expanded state */
+  .accordion .project:not(:first-child):hover .collapsed-info { opacity: 0; }
+  .accordion .project:not(:first-child):hover .expanded-info  { opacity: 1; }
 
-  .accordion:hover .project:hover .meta,
-  .accordion:hover .project:hover .description,
+  .accordion .project:not(:first-child):hover .meta,
+  .accordion .project:not(:first-child):hover .description,
   .project:first-child .meta,
   .project:first-child .description {
     transform: translateY(0);
+  }
+
+  .accordion:has(.project:not(:first-child):hover) .project:first-child .meta,
+  .accordion:has(.project:not(:first-child):hover) .project:first-child .description {
+    transform: translateY(6px);
   }
 
   /* --- Scroll hint arrow --- */
@@ -247,7 +350,7 @@ const projects = [
     bottom: 1.5rem;
     left: 50%;
     transform: translateX(-50%);
-    color: rgba(240, 236, 224, 0.35);
+    color: rgba(240, 236, 224, 0.55);
     animation: bounce 2s ease-in-out infinite;
     pointer-events: none;
     z-index: 2;
@@ -259,16 +362,66 @@ const projects = [
   }
 
   @media (max-width: 640px) {
+    .accordion-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .work-link {
+      padding: 0.53rem 1.56rem;
+      gap: 0.47rem;
+      border-width: 1px;
+    }
+
+    .work-label {
+      font-size: 0.8rem;
+    }
+
+    .work-arrow {
+      width: 13px;
+      height: 13px;
+    }
+
+    /* Vertical accordion */
+    .accordion-panels {
+      flex-direction: column;
+      margin: 0 2rem 1rem;
+      border-radius: 0.75rem;
+    }
+
+    .accordion-panels::after {
+      display: none;
+    }
+
+    .collapsed-info {
+      justify-content: flex-start;
+      align-items: center;
+      padding-left: 1.25rem;
+    }
+
+    .rotated-label {
+      writing-mode: horizontal-tb;
+      transform: none;
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+    }
+
+    .rotated-title {
+      font-size: 1.1rem;
+    }
+
+    .rotated-year {
+      font-size: 0.75rem;
+    }
+
     .title {
       font-size: clamp(3rem, 11vw, 5.5rem);
     }
 
-    .rotated-title {
-      font-size: 2.8rem;
-    }
-
     .description {
-      font-size: 0.9rem;
+      font-size: 1.05rem;
     }
 
     .expanded-info {
@@ -302,9 +455,32 @@ const projects = [
 </style>
 
 <script>
-  const isTouch = navigator.maxTouchPoints > 0 || 'ontouchstart' in window;
+  // Scroll-driven width expansion on mobile
+  if (window.matchMedia('(max-width: 640px)').matches) {
+    const panels = document.querySelector<HTMLElement>('.accordion-panels')!;
+    const accordion = document.querySelector<HTMLElement>('.accordion')!;
+    if (panels && accordion) {
+      const MAX_MARGIN = 32; // px (~2rem)
+      const MAX_RADIUS = 12; // px (0.75rem)
 
-  if (isTouch) {
+      function updateExpansion() {
+        const rect = accordion.getBoundingClientRect();
+        const progress = Math.max(0, Math.min(1, (window.innerHeight - rect.top) / window.innerHeight));
+        const m = MAX_MARGIN * (1 - progress);
+        const r = MAX_RADIUS * (1 - progress);
+        panels.style.margin = `0 ${m}px 1rem`;
+        panels.style.borderRadius = `${r}px`;
+      }
+
+      window.addEventListener('scroll', updateExpansion, { passive: true });
+      updateExpansion();
+    }
+  }
+
+  const isMobile = window.matchMedia('(max-width: 640px)').matches;
+  const isTouch  = navigator.maxTouchPoints > 0 || 'ontouchstart' in window;
+
+  if (isMobile || isTouch) {
     const accordion = document.querySelector('.accordion');
     if (accordion) {
       const panels = [...accordion.querySelectorAll<HTMLAnchorElement>('.project')];
@@ -321,19 +497,21 @@ const projects = [
         panel.addEventListener('touchend', (e) => {
           if (moved) return;
           if (panel.classList.contains('touch-active')) {
-            // Already expanded — navigate
             window.location.href = panel.href;
             return;
           }
-          // First tap — expand only
           e.preventDefault();
           panels.forEach((p) => p.classList.remove('touch-active'));
           panel.classList.add('touch-active');
         }, { passive: false });
 
-        // Block click-based navigation for non-active panels (fallback)
+        // Click handler covers non-touch narrow-viewport browsers
         panel.addEventListener('click', (e) => {
-          if (!panel.classList.contains('touch-active')) e.preventDefault();
+          if (!panel.classList.contains('touch-active')) {
+            e.preventDefault();
+            panels.forEach((p) => p.classList.remove('touch-active'));
+            panel.classList.add('touch-active');
+          }
         });
       });
     }
