@@ -21,6 +21,17 @@ const laurels = fs
   .readdirSync(laurelsDir)
   .filter((file) => /\.(png|jpg|jpeg|webp|gif)$/i.test(file))
   .map((file) => `/laurels/${file}`);
+
+// Dynamically load all BTS photos from public/BTS folder, shuffled, split between rows
+const btsDir = path.join(process.cwd(), "public/BTS");
+const btsPhotos = fs
+  .readdirSync(btsDir)
+  .filter((file) => /\.(png|jpg|jpeg|webp|gif)$/i.test(file))
+  .map((file) => `/BTS/${file}`)
+  .sort(() => Math.random() - 0.5);
+const half = Math.ceil(btsPhotos.length / 2);
+const btsTop = btsPhotos.slice(0, half);
+const btsBottom = btsPhotos.slice(half);
 ---
 
 <Layout title="New World Fool Productions">
@@ -125,43 +136,16 @@ const laurels = fs
 
     <section class="bts">
       <div class="bts-rows">
-        {(() => {
-          // Manually interleaved to avoid clustering similar shots together
-          const photos = [
-            "/BTS/IMG_9780.jpeg",
-            "/BTS/IMG_5447 1.png",
-            "/BTS/IMG_9967.jpeg",
-            "/BTS/shortfilm-05184 1.png",
-            "/BTS/DSC00222.jpg",
-            "/BTS/IMG_5442 1.png",
-            "/BTS/IMG_9806.jpeg",
-            "/BTS/DSC00119.jpg",
-            "/BTS/IMG_5430 1.png",
-            "/BTS/IMG_9972.jpeg",
-            "/BTS/IMG_3725 1.png",
-            "/BTS/DSC00139.jpg",
-            "/BTS/IMG_5452 1(1).png",
-            "/BTS/IMG_0021.jpeg",
-            "/BTS/IMG_9824.jpeg",
-            "/BTS/DSC00205.jpg",
-          ];
-          const row1 = [...photos, ...photos];
-          const row2 = [...[...photos].reverse(), ...[...photos].reverse()];
-          return (
-            <>
-              <div class="bts-row bts-row--left">
-                {row1.map((src) => (
-                  <img src={src} alt="" class="bts-photo" />
-                ))}
-              </div>
-              <div class="bts-row bts-row--right">
-                {row2.map((src) => (
-                  <img src={src} alt="" class="bts-photo" />
-                ))}
-              </div>
-            </>
-          );
-        })()}
+        <div class="bts-row bts-row--left">
+          {[...btsTop, ...btsTop].map((src) => (
+            <img src={src} alt="" class="bts-photo" />
+          ))}
+        </div>
+        <div class="bts-row bts-row--right">
+          {[...btsBottom, ...btsBottom].map((src) => (
+            <img src={src} alt="" class="bts-photo" />
+          ))}
+        </div>
       </div>
     </section>
   </div>
@@ -271,6 +255,7 @@ const laurels = fs
     iframe.addEventListener("load", dismiss, { once: true });
     setTimeout(dismiss, 4000); // hard cap
   })();
+
 
 </script>
 
@@ -493,29 +478,23 @@ const laurels = fs
     -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
   }
 
-  .bts-row {
-    display: flex;
-    gap: 1rem;
-    height: 14rem;
-    will-change: transform;
-  }
-
-  .bts-row--left {
-    animation: scroll-left 40s linear infinite;
-  }
-
-  .bts-row--right {
-    animation: scroll-right 40s linear infinite;
-  }
-
-  @keyframes scroll-left {
+  @keyframes bts-scroll {
     from { transform: translateX(0); }
     to   { transform: translateX(-50%); }
   }
 
-  @keyframes scroll-right {
-    from { transform: translateX(-50%); }
-    to   { transform: translateX(0); }
+  .bts-row {
+    display: flex;
+    gap: 0;
+    height: 14rem;
+    width: max-content;
+    will-change: transform;
+    animation: bts-scroll 78s linear infinite;
+  }
+
+  .bts-row--right {
+    animation-delay: -8s;
+    animation-direction: reverse;
   }
 
   .bts-photo {
@@ -525,6 +504,8 @@ const laurels = fs
     aspect-ratio: 3 / 2;
     object-fit: cover;
     filter: grayscale(1);
+    margin-right: 1rem;
+    border-radius: 8px;
   }
 
   /* ── Video loader ── */
@@ -613,7 +594,6 @@ const laurels = fs
     }
 
     .bts-row {
-      will-change: auto;
       height: 10rem;
     }
 
