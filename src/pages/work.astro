@@ -26,14 +26,17 @@ const upcoming  = indexed.filter(({ film }) => film.status !== 'completed');
             <a href={`/films/${film.slug}`} class="film-card" data-index={String(i)}>
               <div class="card-image" data-cursor>
                 {film.videoEmbedUrl ? (
-                  <iframe
-                    src={film.videoEmbedUrl}
-                    class="card-video"
-                    allow="autoplay; fullscreen"
-                    allowfullscreen
-                    loading="lazy"
-                    title={film.title}
-                  />
+                  <>
+                    <img src={film.poster ?? film.stillImage} alt={film.title} class="card-video-fallback" loading="eager" />
+                    <iframe
+                      src={film.videoEmbedUrl}
+                      class="card-video"
+                      allow="autoplay; fullscreen"
+                      allowfullscreen
+                      loading="lazy"
+                      title={film.title}
+                    />
+                  </>
                 ) : (
                   <img src={film.poster ?? film.stillImage} alt={film.title} loading="eager" />
                 )}
@@ -72,14 +75,17 @@ const upcoming  = indexed.filter(({ film }) => film.status !== 'completed');
             <a href={`/films/${film.slug}`} class="film-card" data-index={String(i)}>
               <div class="card-image" data-cursor>
                 {film.videoEmbedUrl ? (
-                  <iframe
-                    src={film.videoEmbedUrl}
-                    class="card-video"
-                    allow="autoplay; fullscreen"
-                    allowfullscreen
-                    loading="lazy"
-                    title={film.title}
-                  />
+                  <>
+                    <img src={film.poster ?? film.stillImage} alt={film.title} class="card-video-fallback" loading="eager" />
+                    <iframe
+                      src={film.videoEmbedUrl}
+                      class="card-video"
+                      allow="autoplay; fullscreen"
+                      allowfullscreen
+                      loading="lazy"
+                      title={film.title}
+                    />
+                  </>
                 ) : (
                   <img src={film.poster ?? film.stillImage} alt={film.title} loading="eager" />
                 )}
@@ -332,6 +338,17 @@ const upcoming  = indexed.filter(({ film }) => film.status !== 'completed');
     height: 100%;
     border: none;
     pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  .card-video.playing {
+    opacity: 1;
+  }
+
+  .card-video-fallback {
+    position: absolute;
+    inset: 0;
   }
 
   .card-overlay {
@@ -600,6 +617,7 @@ const upcoming  = indexed.filter(({ film }) => film.status !== 'completed');
     letter-spacing: 0.06em;
     color: rgba(240, 236, 224, 0.65);
     line-height: 1.6;
+    text-transform: uppercase;
   }
 
   .m-desc-aside {
@@ -932,6 +950,40 @@ const upcoming  = indexed.filter(({ film }) => film.status !== 'completed');
     });
   })();
 
+  // ── Video fallback: show poster until Vimeo confirms play ──
+  (() => {
+    const videoIframes = Array.from(document.querySelectorAll<HTMLIFrameElement>('.card-video'));
+
+    videoIframes.forEach(iframe => {
+      const fallbackImg = iframe.previousElementSibling as HTMLImageElement | null;
+
+      function handleMessage(e: MessageEvent) {
+        if (e.source !== iframe.contentWindow) return;
+        let data: any;
+        try { data = typeof e.data === 'string' ? JSON.parse(e.data) : e.data; } catch { return; }
+
+        if (data.event === 'ready') {
+          iframe.contentWindow!.postMessage(
+            JSON.stringify({ method: 'addEventListener', value: 'play' }),
+            'https://player.vimeo.com'
+          );
+        }
+
+        if (data.event === 'play') {
+          window.removeEventListener('message', handleMessage);
+          iframe.classList.add('playing');
+          if (fallbackImg?.classList.contains('card-video-fallback')) {
+            fallbackImg.style.display = 'none';
+          }
+        }
+      }
+
+      window.addEventListener('message', handleMessage);
+      // After 10s without play, give up and keep the fallback image
+      setTimeout(() => window.removeEventListener('message', handleMessage), 10000);
+    });
+  })();
+
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -1134,6 +1186,11 @@ const upcoming  = indexed.filter(({ film }) => film.status !== 'completed');
 
   document.getElementById('m-lightbox-close')?.addEventListener('click', closeLightbox);
   lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+
+  document.querySelector<HTMLAnchorElement>('.section-scroll-link')?.addEventListener('click', e => {
+    e.preventDefault();
+    document.getElementById('now-showing')?.scrollIntoView({ behavior: 'smooth' });
+  });
 
   document.querySelectorAll<HTMLAnchorElement>('.film-card').forEach(card => {
     card.addEventListener('click', (e) => {

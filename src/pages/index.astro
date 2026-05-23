@@ -240,20 +240,42 @@ const btsBottom = btsPhotos.slice(half);
     requestAnimationFrame(tick);
   })();
 
-  // Fade out the loading overlay once the Vimeo iframe fires its load event.
-  // Falls back to a max wait of 4s so it never hangs indefinitely.
+  // Fade out the loading overlay once the Vimeo video actually starts playing.
+  // Uses the Vimeo postMessage API to get the real "play" event rather than
+  // the iframe "load" event (which fires before any video data has buffered).
+  // Falls back to a 10s hard cap so it never hangs indefinitely.
   (() => {
     const loader = document.getElementById("video-loader") as HTMLElement | null;
-    const iframe = document.getElementById("vimeo-bg");
+    const iframe = document.getElementById("vimeo-bg") as HTMLIFrameElement | null;
     if (!loader || !iframe) return;
 
+    let dismissed = false;
     function dismiss() {
+      if (dismissed) return;
+      dismissed = true;
       loader!.classList.add("fade-out");
       loader!.addEventListener("transitionend", () => loader!.remove(), { once: true });
     }
 
-    iframe.addEventListener("load", dismiss, { once: true });
-    setTimeout(dismiss, 4000); // hard cap
+    function handleMessage(event: MessageEvent) {
+      if (event.origin !== "https://player.vimeo.com") return;
+      let data: { event?: string };
+      try { data = JSON.parse(event.data as string); } catch { return; }
+
+      if (data.event === "ready") {
+        iframe!.contentWindow?.postMessage(
+          JSON.stringify({ method: "addEventListener", value: "play" }),
+          "https://player.vimeo.com"
+        );
+      }
+      if (data.event === "play") {
+        window.removeEventListener("message", handleMessage);
+        dismiss();
+      }
+    }
+
+    window.addEventListener("message", handleMessage);
+    setTimeout(dismiss, 10000); // hard cap
   })();
 
 

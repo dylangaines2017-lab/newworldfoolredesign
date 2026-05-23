@@ -86,7 +86,7 @@ const socials = [
           <span class="aside-label">Email us directly</span>
           <a href="mailto:hello@newworldfoolproductions.com" class="contact-email">
             <span class="email-text">hello@newworldfoolproductions.com</span>
-            <svg class="email-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+            <svg class="email-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
           </a>
         </div>
 
@@ -94,7 +94,7 @@ const socials = [
           <span class="aside-label">Financing &amp; Slate</span>
           <a href="mailto:invest@newworldfoolproductions.com" class="contact-email">
             <span class="email-text">invest@newworldfoolproductions.com</span>
-            <svg class="email-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+            <svg class="email-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
           </a>
         </div>
 
@@ -102,7 +102,7 @@ const socials = [
           <span class="aside-label">Festivals &amp; Press</span>
           <a href="mailto:press@newworldfoolproductions.com" class="contact-email">
             <span class="email-text">press@newworldfoolproductions.com</span>
-            <svg class="email-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+            <svg class="email-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
           </a>
         </div>
 
@@ -311,23 +311,17 @@ const socials = [
     white-space: nowrap;
     display: inline-flex;
     align-items: center;
-    gap: 0.4em;
-    transition: color 0.2s;
-  }
-
-  .contact-email:hover {
-    color: #C8A96E;
-  }
-
-  .email-text {
+    align-self: flex-start;
+    gap: 0.4rem;
     background-image: linear-gradient(currentColor, currentColor);
     background-size: 100% 1px;
     background-position: right bottom;
     background-repeat: no-repeat;
-    transition: background-size 0.35s ease;
+    transition: background-size 0.35s ease, color 0.2s;
   }
 
-  .contact-email:hover .email-text {
+  .contact-email:hover {
+    color: #C8A96E;
     background-size: 0% 1px;
   }
 
