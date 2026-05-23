@@ -112,7 +112,7 @@ As a filmmaker, Varun seeks to achieve something different with each project —
       <div class="team-row">
         {members.map((member, i) => (
           <button class="member-card" data-index={String(i)}>
-            <div class="card-photo-wrap">
+            <div class="card-photo-wrap" data-cursor>
               <img
                 src={member.photo}
                 alt={member.name}
@@ -133,18 +133,14 @@ As a filmmaker, Varun seeks to achieve something different with each project —
       <div class="modal-backdrop"></div>
       <div class="modal-inner">
         <button class="modal-close" aria-label="Close">✕</button>
-        <div class="modal-top">
+        <div class="modal-photo-col">
+          <img class="modal-photo" src="" alt="" />
+        </div>
+        <div class="modal-text-col">
           <div class="modal-tags"></div>
           <h3 class="modal-name"></h3>
-        </div>
-        <div class="modal-bottom">
-          <div class="modal-photo-col">
-            <img class="modal-photo" src="" alt="" />
-          </div>
-          <div class="modal-text-col">
-            <div class="modal-bio"></div>
-            <a class="modal-link" href="" target="_blank" rel="noopener noreferrer"></a>
-          </div>
+          <div class="modal-bio"></div>
+          <a class="modal-link" href="" target="_blank" rel="noopener noreferrer"></a>
         </div>
       </div>
     </div>
@@ -386,7 +382,7 @@ As a filmmaker, Varun seeks to achieve something different with each project —
     aspect-ratio: 1;
     overflow: hidden;
     border-radius: 16px;
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 44 44'%3E%3Ccircle cx='22' cy='22' r='20' fill='%23C8A96E' stroke='none'/%3E%3Cpath d='M15 29 L29 15 M22 15 L29 15 L29 22' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") 22 22, pointer;
+    cursor: none;
   }
 
   .card-photo {
@@ -458,7 +454,7 @@ As a filmmaker, Varun seeks to achieve something different with each project —
     position: relative;
     z-index: 1;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     width: 100%;
     height: 100%;
   }
@@ -470,7 +466,7 @@ As a filmmaker, Varun seeks to achieve something different with each project —
     background: none;
     border: none;
     color: rgba(240, 236, 224, 0.5);
-    font-size: 1rem;
+    font-size: 2rem;
     font-family: "JetBrains Mono", monospace;
     cursor: pointer;
     z-index: 2;
@@ -481,16 +477,27 @@ As a filmmaker, Varun seeks to achieve something different with each project —
 
   .modal-close:hover { color: #F0ECE0; }
 
-  /* Top: name bar */
-  .modal-top {
-    padding: 5rem 4rem;
-    background: #0f0f0d;
+  .modal-photo-col {
+    width: 45%;
     flex-shrink: 0;
+    overflow: hidden;
+  }
+
+  .modal-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+
+  .modal-text-col {
+    flex: 1;
+    background: #0f0f0d;
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 1rem;
-    text-align: center;
+    padding: 2.5rem 4rem 3rem;
+    overflow-y: auto;
   }
 
   .modal-tags {
@@ -499,6 +506,7 @@ As a filmmaker, Varun seeks to achieve something different with each project —
     letter-spacing: 0.12em;
     color: rgba(240, 236, 224, 0.5);
     text-align: center;
+    align-self: center;
   }
 
   :global(.modal-tag) {
@@ -516,41 +524,10 @@ As a filmmaker, Varun seeks to achieve something different with each project —
     line-height: 0.88;
     color: #C8A96E;
     letter-spacing: 0.02em;
-  }
-
-  .modal-role {
-    display: none;
-  }
-
-  /* Bottom: photo + bio side by side */
-  .modal-bottom {
-    flex: 1;
-    display: flex;
-    overflow: hidden;
-  }
-
-  .modal-photo-col {
-    width: 45%;
-    flex-shrink: 0;
-    overflow: hidden;
-  }
-
-  .modal-photo {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center top;
-  }
-
-  .modal-text-col {
-    flex: 1;
-    padding: 3rem 4rem;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    overflow-y: auto;
-    justify-content: flex-start;
-    background: #1a1a18;
+    text-align: center;
+    margin-bottom: 2rem;
+    white-space: nowrap;
   }
 
   .modal-bio {
@@ -603,11 +580,7 @@ As a filmmaker, Varun seeks to achieve something different with each project —
       flex: 1 1 calc(50% - 0.75rem);
     }
 
-    .modal-top {
-      padding: 2rem;
-    }
-
-    .modal-bottom {
+    .modal-inner {
       flex-direction: column;
     }
 
@@ -619,7 +592,6 @@ As a filmmaker, Varun seeks to achieve something different with each project —
 
     .modal-text-col {
       padding: 2rem;
-      justify-content: flex-start;
     }
   }
 
@@ -735,6 +707,23 @@ As a filmmaker, Varun seeks to achieve something different with each project —
   const modalBio   = modal.querySelector<HTMLElement>('.modal-bio');
   const modalLink  = modal.querySelector<HTMLAnchorElement>('.modal-link');
 
+  function fitName() {
+    if (!modalName) return;
+    modalName.style.fontSize = '';
+    const col = modalName.closest<HTMLElement>('.modal-text-col');
+    if (!col) return;
+    const colStyle = getComputedStyle(col);
+    const available = col.clientWidth
+      - parseFloat(colStyle.paddingLeft)
+      - parseFloat(colStyle.paddingRight);
+    if (available <= 0) return;
+    let size = parseFloat(getComputedStyle(modalName).fontSize);
+    while (modalName.scrollWidth > available && size > 16) {
+      size -= 2;
+      modalName.style.fontSize = size + 'px';
+    }
+  }
+
   function openModal(index: number, card: HTMLElement) {
     const m = memberData[index];
     if (!m || !modalPhoto || !modalName || !modalTags || !modalBio) return;
@@ -742,6 +731,7 @@ As a filmmaker, Varun seeks to achieve something different with each project —
     modalPhoto.src = m.photo;
     modalPhoto.style.objectPosition = m.objectPosition ?? 'center center';
     modalName.textContent = m.name;
+    fitName();
     modalTags.innerHTML = m.title.split(' · ')
       .map((t: string) => `<span class="modal-tag">${t.toUpperCase()}</span>`)
       .join('<span class="modal-tag-sep"> · </span>');

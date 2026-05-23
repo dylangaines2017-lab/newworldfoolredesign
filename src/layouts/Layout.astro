@@ -27,30 +27,35 @@ const { title = "New World Fool Productions", noSnap = false } = Astro.props;
       <slot />
     </main>
     <Footer />
+    <div id="glass-cursor" aria-hidden="true">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="7" y1="17" x2="17" y2="7"/>
+        <polyline points="11 7 17 7 17 13"/>
+      </svg>
+    </div>
   </body>
 </html>
 
 <script>
-  // Disable browser scroll restoration so it doesn't scroll to a previous position
-  if ('scrollRestoration' in history) {
-    history.scrollRestoration = 'manual';
-  }
-
-  // Disable scroll-snap on narrow viewports (mobile / narrow browser)
-  function updateSnap() {
-    document.documentElement.style.scrollSnapType =
-      window.innerWidth <= 768 ? 'none' : '';
-  }
-  updateSnap();
-  window.addEventListener('resize', updateSnap, { passive: true });
-
-  // Scroll to top on initial load
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-
-  // Scroll to top after every Astro view transition swap
   document.addEventListener('astro:after-swap', () => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   });
+
+  // ── Glass cursor ──
+  const glassCursor = document.getElementById('glass-cursor');
+  if (glassCursor) {
+    document.addEventListener('mousemove', (e) => {
+      glassCursor.style.left = e.clientX + 'px';
+      glassCursor.style.top  = e.clientY + 'px';
+    }, { passive: true });
+
+    document.addEventListener('mouseover', (e) => {
+      const hit = (e.target as Element).closest('[data-cursor]');
+      glassCursor.classList.toggle('active', !!hit);
+    });
+  }
 </script>
 
 <style is:global>
@@ -62,8 +67,7 @@ const { title = "New World Fool Productions", noSnap = false } = Astro.props;
 
   html {
     font-family: "Inter", system-ui, sans-serif;
-    scroll-snap-type: y mandatory;
-    scroll-padding-top: 4.35rem;
+    scroll-padding-top: 60px;
   }
 
   html.no-snap {
@@ -80,9 +84,46 @@ const { title = "New World Fool Productions", noSnap = false } = Astro.props;
     background: #000;
     color: #fff;
     min-height: 100vh;
+    overflow-x: hidden;
   }
 
   main {
-    padding-top: 4.35rem;
+    padding: 0.75rem clamp(2.0625rem, 5.5vw, 6.875rem) 0;
+  }
+
+  @media (max-width: 900px) {
+    main {
+      padding: 0;
+    }
+  }
+
+  #glass-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(200, 169, 110, 0.15);
+    backdrop-filter: blur(16px) saturate(1.8) brightness(1.05);
+    -webkit-backdrop-filter: blur(16px) saturate(1.8) brightness(1.05);
+    border: 1px solid rgba(200, 169, 110, 0.45);
+    pointer-events: none;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.18s ease;
+    color: #C8A96E;
+  }
+
+  #glass-cursor.active {
+    opacity: 1;
+  }
+
+  @media (hover: none) {
+    #glass-cursor { display: none; }
   }
 </style>

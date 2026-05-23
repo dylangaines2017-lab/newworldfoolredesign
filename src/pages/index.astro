@@ -1,6 +1,8 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import ProjectAccordion from "../components/ProjectAccordion.astro";
+import fs from "fs";
+import path from "path";
 
 const ethosBurstRays = Array.from({ length: 30 }, (_, i) => {
   const angleDeg = 4 + (i / 29) * 172;
@@ -13,44 +15,27 @@ const ethosBurstRays = Array.from({ length: 30 }, (_, i) => {
 });
 const ethosArcs = [90, 190, 300, 420, 555, 700];
 
-const laurels = [
-  "/laurels/ArizonaIntl.png",
-  "/laurels/AutumnsDawn2025.png",
-  "/laurels/AutumnsDawnBestEditing.png",
-  "/laurels/AutumnsDawnBestFilm.png",
-  "/laurels/AutumnsDawnBestSound.png",
-  "/laurels/AutumnsDawnMostCreative.png",
-  "/laurels/BHFF.webp",
-  "/laurels/BigApple2024.png",
-  "/laurels/BigAppleWhiteLaurels-scaled.png",
-  "/laurels/BridgesIFF2024.png",
-  "/laurels/CYIFF_laurel_black__OFFICIAL_SELECTION-transparent.png",
-  "/laurels/ChicagoHorror2025.png",
-  "/laurels/CyprusGoldenAphrodite2025.png",
-  "/laurels/JerseyShore2025.png",
-  "/laurels/LaurelWreath2025.png",
-  "/laurels/NJ4thWallFilmFestivalLaurelsWhiteNoBackground.png",
-  "/laurels/NJHorrorCon2025.png",
-  "/laurels/NJMystery2025.png",
-  "/laurels/NYCHorror2025.png",
-  "/laurels/NYLiftOff2025.png",
-  "/laurels/NYSciFiHorror2025.png",
-  "/laurels/Official-Selection-White.png",
-  "/laurels/UnforeseenLaurelWhite.png",
-];
+// Dynamically load all laurels from public/laurels folder
+const laurelsDir = path.join(process.cwd(), "public/laurels");
+const laurels = fs
+  .readdirSync(laurelsDir)
+  .filter((file) => /\.(png|jpg|jpeg|webp|gif)$/i.test(file))
+  .map((file) => `/laurels/${file}`);
 ---
 
 <Layout title="New World Fool Productions">
   <!-- 1. Video panel -->
   <div class="jester-panel snap-section">
-    <div class="jester-video-bg">
-      <iframe
-        id="vimeo-bg"
-        src="https://player.vimeo.com/video/1190989163?h=2950c25315&background=1&autoplay=1&loop=1&muted=1&byline=0&title=0"
-        style="border:0"
-        allow="autoplay; fullscreen"
-        title=""
-      ></iframe>
+    <div class="jester-panel-inner">
+      <div class="jester-video-bg">
+        <iframe
+          id="vimeo-bg"
+          src="https://player.vimeo.com/video/1190989163?h=2950c25315&background=1&autoplay=1&loop=1&muted=1&byline=0&title=0"
+          style="border:0"
+          allow="autoplay; fullscreen"
+          title=""
+        ></iframe>
+      </div>
       <div class="jester-video-overlay"></div>
       <div class="jester-grain-overlay" aria-hidden="true"></div>
       <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
@@ -66,23 +51,17 @@ const laurels = [
           </filter>
         </defs>
       </svg>
+
+      <div class="scroll-hint" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M8 3v10M3 9l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
     </div>
 
     <!-- Loading overlay -->
     <div class="video-loader" id="video-loader" aria-hidden="true">
       <img src="/logo.png" alt="" class="loader-logo" />
-    </div>
-
-    <section class="hero-text">
-      <span class="hero-word">Unfiltered,</span>
-      <span class="hero-word">Contemporary,</span>
-      <span class="hero-word hero-cinema">Cinema.</span>
-    </section>
-
-    <div class="scroll-hint" aria-hidden="true">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-        <path d="M8 3v10M3 9l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
     </div>
   </div>
 
@@ -293,63 +272,6 @@ const laurels = [
     setTimeout(dismiss, 4000); // hard cap
   })();
 
-  // Highly sensitive scroll snapping — any wheel input triggers the next/prev section
-  (() => {
-    const getSections = () =>
-      Array.from(document.querySelectorAll<HTMLElement>(".snap-section, .accordion"));
-
-    let locked = false;
-
-    function snapTo(el: HTMLElement) {
-      locked = true;
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-      setTimeout(() => { locked = false; }, 900);
-    }
-
-    function getCurrentIndex(sections: HTMLElement[]) {
-      const mid = window.scrollY + window.innerHeight * 0.4;
-      let idx = 0;
-      sections.forEach((s, i) => {
-        if (s.offsetTop <= mid) idx = i;
-      });
-      return idx;
-    }
-
-    window.addEventListener("wheel", (e) => {
-      const sections = getSections();
-      if (!sections.length) return;
-      if (locked) { e.preventDefault(); return; }
-
-      const dir = e.deltaY > 0 ? 1 : -1;
-      const cur = getCurrentIndex(sections);
-      const next = Math.max(0, Math.min(sections.length - 1, cur + dir));
-
-      if (next !== cur) {
-        e.preventDefault();
-        snapTo(sections[next]);
-      }
-    }, { passive: false });
-
-    let touchStartY = 0;
-    window.addEventListener("touchstart", (e) => {
-      touchStartY = e.touches[0].clientY;
-    }, { passive: true });
-
-    window.addEventListener("touchend", (e) => {
-      if (locked) return;
-      // Don't interfere with accordion panel taps
-      if ((e.target as Element).closest?.('.accordion')) return;
-      const sections = getSections();
-      if (!sections.length) return;
-      const dy = touchStartY - e.changedTouches[0].clientY;
-      if (Math.abs(dy) < 30) return;
-      const dir = dy > 0 ? 1 : -1;
-      const cur = getCurrentIndex(sections);
-      const next = Math.max(0, Math.min(sections.length - 1, cur + dir));
-      if (next !== cur) snapTo(sections[next]);
-    }, { passive: true });
-  })();
-
 </script>
 
 <style>
@@ -357,12 +279,20 @@ const laurels = [
   .jester-panel {
     position: relative;
     height: 100svh;
-    margin-top: -4.35rem;
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
+    margin: 0 1.5rem;
+    width: calc(100% - 3rem);
     display: flex;
     flex-direction: column;
-    border-top: 1px solid #1a1a18;
+    overflow: hidden;
+  }
+
+  .jester-panel-inner {
+    position: relative;
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    margin: 0;
+    border-radius: 0;
     overflow: hidden;
   }
 
@@ -376,10 +306,10 @@ const laurels = [
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 177.78vh;
+    width: 100%;
     height: 100%;
     min-width: 100%;
-    min-height: 56.25vw;
+    min-height: 100%;
     transform: translate(-50%, -50%);
     pointer-events: none;
   }
@@ -398,35 +328,6 @@ const laurels = [
     filter: url(#grain-filter);
     opacity: 0.38;
     mix-blend-mode: overlay;
-  }
-
-  /* ── Hero text ── */
-  .hero-text {
-    position: absolute;
-    bottom: 4.5rem;
-    left: 2.5rem;
-    z-index: 1;
-    pointer-events: none;
-    display: flex;
-    flex-direction: column;
-    line-height: 0.88;
-  }
-
-  .hero-word {
-    display: block;
-    font-family: "Instrument Serif", serif;
-    font-size: clamp(5.25rem, 12vw, 12rem);
-    font-weight: 300;
-    color: #F0ECE0;
-    letter-spacing: -0.01em;
-  }
-
-  .hero-cinema {
-    font-style: italic;
-    background: linear-gradient(to right, #C8A96E, #F0D98A, #C8A96E);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
   }
 
   /* Our Work button — right-aligned, vertically centered */
@@ -451,9 +352,6 @@ const laurels = [
   /* ── Ethos + BTS panel ── */
   .ethos-bts-panel {
     position: relative;
-    height: calc(100svh - 3.5rem);
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
     display: flex;
     flex-direction: column;
     border-top: 1px solid #1a1a18;
@@ -539,29 +437,29 @@ const laurels = [
   .ethos-link {
     display: inline-flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.4rem;
     margin-top: 1.5rem;
     text-decoration: none;
-    color: #C8A96E;
-    border: 2px solid #C8A96E;
-    border-radius: 0.5rem;
-    padding: 0.85rem 2.5rem;
-    background: linear-gradient(to right, #C8A96E 50%, #1C1C18 50%);
-    background-size: 200% 100%;
-    background-position: 100% 0;
-    transition: background-position 0.5s ease, color 0.3s ease;
+    color: rgba(240, 236, 224, 0.72);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.125rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    width: fit-content;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 100% 1px;
+    background-position: right bottom;
+    background-repeat: no-repeat;
+    transition: background-size 0.35s ease, color 0.2s;
   }
 
   .ethos-link:hover {
-    background-position: 0% 0;
-    color: #0A0A08;
+    color: #C8A96E;
+    background-size: 0% 1px;
   }
 
   .ethos-link-label {
-    font-family: "JetBrains Mono", monospace;
-    font-size: 1.275rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    display: inline-block;
   }
 
   .ethos-link-arrow {
@@ -580,6 +478,8 @@ const laurels = [
     justify-content: flex-end;
     overflow: hidden;
     padding: 1rem 0 0;
+    width: calc(100% - 3rem);
+    margin: 0 auto;
   }
 
   .bts-rows {
@@ -589,6 +489,8 @@ const laurels = [
     flex: 1;
     justify-content: flex-end;
     padding-bottom: 2rem;
+    mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
   }
 
   .bts-row {
@@ -653,11 +555,28 @@ const laurels = [
     50%       { opacity: 0.65; transform: scale(1.12); }
   }
 
+  @media (max-width: 900px) {
+    .jester-panel {
+      width: 100%;
+      height: 108svh;
+      margin: 0;
+    }
+
+    .jester-video-bg iframe {
+      height: 108svh;
+      width: calc(108svh * 16 / 9);
+      min-width: 100%;
+      min-height: 100%;
+    }
+  }
+
   @media (max-width: 640px) {
     .ethos {
       grid-template-columns: 1fr;
       gap: 1.5rem;
-      padding-bottom: 1rem;
+      padding: 3rem clamp(2.0625rem, 5.5vw, 6.875rem);
+      width: 100%;
+      margin: 0;
     }
 
     .ethos-heading {
@@ -665,9 +584,8 @@ const laurels = [
     }
 
     .ethos-link {
-      padding: 0.53rem 1.56rem;
+      padding: 0;
       gap: 0.47rem;
-      border-width: 1px;
     }
 
     .ethos-link-label {
@@ -682,13 +600,16 @@ const laurels = [
 
   @media (max-width: 640px) {
     .ethos-bts-panel {
-      height: calc(100svh - 3.5rem);
+      height: auto;
       background: #0A0A08;
-      overflow: hidden;
+      overflow: visible;
     }
 
     .bts {
-      overflow: hidden;
+      overflow: visible;
+      width: 100%;
+      margin: 0;
+      padding: 2rem 0 0 0;
     }
 
     .bts-row {
@@ -713,9 +634,6 @@ const laurels = [
   /* ── Contact panel ── */
   .contact-panel {
     position: relative;
-    height: calc(100svh - 3.5rem);
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
     display: flex;
     flex-direction: column;
     border-top: 1px solid #1a1a18;
@@ -828,18 +746,21 @@ const laurels = [
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
+    text-decoration: none;
+    color: rgba(240, 236, 224, 0.72);
     font-family: "JetBrains Mono", monospace;
     font-size: 1.35rem;
     letter-spacing: 0.05em;
-    color: #C8A96E;
-    text-decoration: underline;
-    text-underline-offset: 4px;
-    text-decoration-color: rgba(200, 169, 110, 0.35);
-    transition: text-decoration-color 0.2s;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 100% 1px;
+    background-position: right bottom;
+    background-repeat: no-repeat;
+    transition: background-size 0.35s ease, color 0.2s;
   }
 
   .contact-email:hover {
-    text-decoration-color: #C8A96E;
+    color: #C8A96E;
+    background-size: 0% 1px;
   }
 
   .contact-email-arrow {
@@ -875,7 +796,7 @@ const laurels = [
 
   .contact-value {
     font-family: "JetBrains Mono", monospace;
-    font-size: 1.65rem;
+    font-size: 1.2rem;
     color: #F0ECE0;
   }
 
@@ -922,6 +843,10 @@ const laurels = [
     border-top: 1px solid #1a1a18;
     padding: 1.5rem 0;
     background: rgba(200, 169, 110, 0.03);
+    mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+    width: calc(100% - 3rem);
+    margin: 0 auto;
   }
 
   .laurel-track {
@@ -949,6 +874,12 @@ const laurels = [
     .joker-cards {
       display: none;
     }
+  }
+
+  @media (max-width: 1280px) {
+    .joker-cards {
+      display: none;
+    }
 
     .contact-panel {
       height: auto;
@@ -957,9 +888,11 @@ const laurels = [
 
     .contact-main {
       grid-template-columns: 1fr;
-      padding: 2rem 2.5rem;
+      padding: 2rem clamp(2.0625rem, 5.5vw, 6.875rem);
       gap: 2.5rem;
       align-content: start;
+      width: 100%;
+      margin: 0;
     }
 
     .contact-email {

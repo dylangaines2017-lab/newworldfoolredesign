@@ -44,9 +44,11 @@ if (!film) return Astro.redirect("/work");
 
           <div class="film-credits">
             {film.credits.map((credit) => (
-              <div class="credit-row">
+              <div class="credit-col">
                 <span class="credit-role">{credit.role}</span>
-                <span class="credit-name">{credit.name}</span>
+                {credit.name.split(', ').map(name => (
+                  <span class="credit-name">{name.trim()}</span>
+                ))}
               </div>
             ))}
           </div>
@@ -229,34 +231,34 @@ if (!film) return Astro.redirect("/work");
   }
 
   .film-credits {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
     margin-bottom: 2.5rem;
     padding-top: 1.5rem;
     border-top: 1px solid #1a1a18;
   }
 
-  .credit-row {
+  .credit-col {
     display: flex;
-    gap: 1.5rem;
-    align-items: baseline;
+    flex-direction: column;
+    gap: 0.2rem;
   }
 
   .credit-role {
-    font-family: "JetBrains Mono", monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba(240, 236, 224, 0.55);
-    min-width: 90px;
-    flex-shrink: 0;
+    font-family: "Instrument Serif", serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: #F0ECE0;
+    margin-bottom: 0.3rem;
   }
 
   .credit-name {
-    font-size: 1rem;
-    font-weight: 400;
-    color: rgba(240, 236, 224, 0.8);
+    font-family: "Inter", sans-serif;
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: rgba(240, 236, 224, 0.6);
+    line-height: 1.6;
   }
 
   .film-actions {
