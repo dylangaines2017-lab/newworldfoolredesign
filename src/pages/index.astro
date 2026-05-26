@@ -63,11 +63,6 @@ const btsBottom = btsPhotos.slice(half);
         </defs>
       </svg>
 
-      <div class="scroll-hint" aria-hidden="true">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path d="M8 3v10M3 9l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
     </div>
 
     <!-- Loading overlay -->
@@ -338,23 +333,6 @@ const btsBottom = btsPhotos.slice(half);
   }
 
   /* Our Work button — right-aligned, vertically centered */
-
-  /* Scroll hint arrow */
-  .scroll-hint {
-    position: absolute;
-    bottom: 1.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    color: rgba(240, 236, 224, 0.55);
-    animation: bounce 2s ease-in-out infinite;
-    pointer-events: none;
-    z-index: 2;
-  }
-
-  @keyframes bounce {
-    0%, 100% { transform: translateX(-50%) translateY(0);   opacity: 0.35; }
-    50%       { transform: translateX(-50%) translateY(5px); opacity: 0.65; }
-  }
 
   /* ── Ethos + BTS panel ── */
   .ethos-bts-panel {
