@@ -524,8 +524,8 @@ const projects = [
   @media (hover: none) {
     /* Reset first-child default expanded state — JS will manage it */
     .project:first-child { flex: 0.4; }
-    .project:first-child .collapsed-info { opacity: 1; }
-    .project:first-child .expanded-info  { opacity: 0; }
+    .project:first-child .collapsed-info { opacity: 1; transform: translateY(0); }
+    .project:first-child .expanded-info  { opacity: 0; transform: translateY(12px); }
     .project:first-child .meta,
     .project:first-child .description { transform: translateY(6px); }
 
@@ -535,13 +535,46 @@ const projects = [
     .accordion:hover .project:hover .collapsed-info { opacity: 1; }
     .accordion:hover .project:hover .expanded-info  { opacity: 0; }
 
-    /* Touch-active panel */
+    /* Touch-active: flex expansion + basic visibility (covers first-child case) */
     .project.touch-active { flex: 4; }
-    .project.touch-active .collapsed-info { opacity: 0; }
-    .project.touch-active .expanded-info  { opacity: 1; }
-    .project.touch-active .meta,
-    .project.touch-active .description { transform: translateY(0); }
     .project.touch-active .bg { transform: scale(1.04); }
+    .project.touch-active .collapsed-info { opacity: 0; transform: translateY(-10px); }
+    .project.touch-active .expanded-info  { opacity: 1; transform: translateY(0); }
+
+    /*
+     * Non-first touch-active panels: use specificity (0,4,0) to beat
+     * `.accordion .project:not(:first-child):not(:hover)` (also 0,4,0)
+     * which keeps everything opacity:0 / visibility:hidden.
+     * Being declared later in source order wins the tie.
+     */
+    .accordion .project.touch-active:not(:first-child) .expanded-info,
+    .accordion .project.touch-active:not(:first-child) .index {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1), transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .accordion .project.touch-active:not(:first-child) .title {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.35s ease 0.25s, transform 0.35s ease 0.25s;
+    }
+
+    .accordion .project.touch-active:not(:first-child) .meta,
+    .accordion .project.touch-active:not(:first-child) .director {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      transition: opacity 0.3s ease 0.2s, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.1s;
+    }
+
+    .accordion .project.touch-active:not(:first-child) .description {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      transition: opacity 0.5s ease 0.3s, visibility 0s;
+    }
   }
 </style>
 

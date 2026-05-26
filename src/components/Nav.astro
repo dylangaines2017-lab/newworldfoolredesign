@@ -92,7 +92,8 @@ const currentPath = Astro.url.pathname;
               {categoryFilms.length > 3 && (
                 <li>
                   <a href="/work" class="dropdown-see-more">
-                    Browse all {category}
+                    <span class="see-more-full">Browse all {category}</span>
+                    <span class="see-more-short">All {category}</span>
                     <svg class="see-more-arrow" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                       <path d="M7 7h10v10"/>
                       <path d="M7 17 17 7"/>
@@ -480,6 +481,13 @@ const currentPath = Astro.url.pathname;
 
   .work-dropdown .dropdown-see-more:hover .see-more-arrow {
     transform: translate(2px, -2px);
+  }
+
+  .see-more-short { display: none; }
+
+  @media (max-width: 768px) {
+    .see-more-full  { display: none; }
+    .see-more-short { display: inline; }
   }
 
   /* ── Desktop: larger logo scale ── */

@@ -605,11 +605,11 @@ const btsBottom = btsPhotos.slice(half);
     .ethos-bts-panel {
       height: auto;
       background: #0A0A08;
-      overflow: visible;
+      overflow: hidden;
     }
 
     .bts {
-      overflow: visible;
+      overflow: hidden;
       width: 100%;
       margin: 0;
       padding: 2rem 0 0 0;
@@ -751,7 +751,7 @@ const btsBottom = btsPhotos.slice(half);
     text-decoration: none;
     color: rgba(240, 236, 224, 0.72);
     font-family: "JetBrains Mono", monospace;
-    font-size: 1.35rem;
+    font-size: clamp(0.78rem, 2.5vw, 1.35rem);
     letter-spacing: 0.05em;
     background-image: linear-gradient(currentColor, currentColor);
     background-size: 100% 1px;
@@ -809,6 +809,8 @@ const btsBottom = btsPhotos.slice(half);
     color: #F0ECE0;
     text-decoration: none;
     transition: color 0.2s;
+    overflow-wrap: break-word;
+    word-break: break-all;
   }
 
   .contact-value-link:hover {
@@ -876,6 +878,37 @@ const btsBottom = btsPhotos.slice(half);
     .joker-cards {
       display: none;
     }
+
+    .contact-heading {
+      font-size: clamp(2.6rem, 9vw, 3.6rem);
+    }
+
+    .contact-body {
+      font-size: 1.1rem;
+    }
+
+    .contact-email {
+      flex-wrap: wrap;
+      max-width: 100%;
+    }
+
+    .contact-list li {
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+    }
+
+    .contact-value-link {
+      font-size: 0.9rem;
+    }
+
+    .contact-value {
+      font-size: 0.9rem;
+    }
+
+    .laurel-scroll {
+      width: 100%;
+      margin: 0;
+    }
   }
 
   @media (max-width: 1280px) {
@@ -895,10 +928,6 @@ const btsBottom = btsPhotos.slice(half);
       align-content: start;
       width: 100%;
       margin: 0;
-    }
-
-    .contact-email {
-      font-size: 1.2rem;
     }
 
     .contact-right {

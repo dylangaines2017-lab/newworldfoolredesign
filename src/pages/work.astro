@@ -877,13 +877,12 @@ const upcoming  = indexed.filter(({ film }) => film.status !== 'completed');
       padding-right: 1.5rem;
     }
     .m-film-credits { grid-template-columns: repeat(2, 1fr); }
-    :global(.m-starring-names) { grid-template-columns: repeat(2, 1fr); }
+    :global(.m-starring-names) { grid-template-columns: 1fr; }
     .m-synopsis-col { grid-column: 1 / -1; }
     .m-desc-aside {
       grid-column: 1 / -1;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
+      flex-direction: column;
+      align-items: flex-start;
     }
     :global(.m-stills-grid) { grid-template-columns: 1fr; }
     :global(.m-laurels-grid) { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
