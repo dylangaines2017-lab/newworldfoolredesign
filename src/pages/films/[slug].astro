@@ -12,9 +12,12 @@ const { slug } = Astro.params;
 const film = getFilmBySlug(slug);
 
 if (!film) return Astro.redirect("/work");
+
+// Small 1200×630 copies of the stills, generated into public/og/ for link previews.
+const ogImage = film.stillImage.replace("/FilmScreengrabs/", "/og/").replace(/\.\w+$/, ".jpg");
 ---
 
-<Layout title={`${film.title} — New World Fool Productions`} noSnap>
+<Layout title={`${film.title} — New World Fool Productions`} description={film.description} image={ogImage} noSnap>
   <article class="film-page">
 
     <!-- Hero -->

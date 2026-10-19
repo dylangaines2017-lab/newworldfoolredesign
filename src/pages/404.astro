@@ -1,0 +1,97 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Page Not Found — New World Fool Productions" noSnap noindex>
+  <section class="not-found">
+    <span class="label">Error 404</span>
+    <h1><em>Lost</em> the plot.</h1>
+    <p>This page doesn't exist — or it was cut in the edit.</p>
+    <div class="links">
+      <a href="/" class="btn">Home</a>
+      <a href="/work" class="btn">Our Work</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .not-found {
+    min-height: calc(100svh - 8rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5rem 2.5rem;
+  }
+
+  .label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #C8A96E;
+    margin-bottom: 1.5rem;
+  }
+
+  h1 {
+    font-family: "Instrument Serif", serif;
+    font-size: clamp(5rem, 12vw, 10rem);
+    font-weight: 400;
+    line-height: 0.85;
+    color: #F0ECE0;
+    letter-spacing: 0.02em;
+    margin-bottom: 2rem;
+  }
+
+  h1 em {
+    font-style: italic;
+    background: linear-gradient(to right, #C8A96E, #F0D98A, #C8A96E);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  p {
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    font-weight: 300;
+    line-height: 1.75;
+    color: rgba(240, 236, 224, 0.6);
+    margin-bottom: 2.5rem;
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .btn {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #C8A96E;
+    background-color: transparent;
+    background-image: linear-gradient(to right, #C8A96E, #F0D98A, #C8A96E);
+    background-size: 0% 100%;
+    background-repeat: no-repeat;
+    background-position: left center;
+    border: 1px solid #C8A96E;
+    border-radius: 8px;
+    padding: 0.9rem 2rem;
+    transition: background-size 0.4s ease, color 0.3s ease;
+  }
+
+  .btn:hover {
+    background-size: 100% 100%;
+    color: #0A0A08;
+  }
+
+  @media (max-width: 640px) {
+    .not-found {
+      padding: 4rem 1.5rem;
+    }
+  }
+</style>

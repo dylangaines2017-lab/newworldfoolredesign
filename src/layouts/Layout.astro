@@ -4,10 +4,28 @@ import Footer from "../components/Footer.astro";
 
 interface Props {
   title?: string;
+  /** Used for search results and link previews. */
+  description?: string;
+  /** Link preview image (ideally 1200×630, under ~300KB). */
+  image?: string;
   noSnap?: boolean;
+  /** Hide the site nav, footer and page padding (immersive pages). */
+  bare?: boolean;
+  /** Ask search engines not to index this page. */
+  noindex?: boolean;
 }
 
-const { title = "New World Fool Productions", noSnap = false } = Astro.props;
+const {
+  title = "New World Fool Productions",
+  description = "New World Fool Productions is an independent film company making black comedy and horror that speaks truth to power.",
+  image = "/og/default.jpg",
+  noSnap = false,
+  bare = false,
+  noindex = false,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const imageUrl = new URL(image, Astro.site);
 ---
 
 <html lang="en" class={noSnap ? "no-snap" : ""}>
@@ -16,17 +34,31 @@ const { title = "New World Fool Productions", noSnap = false } = Astro.props;
     <link rel="icon" type="image/jpeg" href="/favicon.jpg" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="New World Fool Productions" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={imageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <slot name="head" />
   </head>
   <body>
-    <Nav />
-    <main>
+    {!bare && <Nav />}
+    <main class={bare ? "bare" : undefined}>
       <slot />
     </main>
-    <Footer />
+    {!bare && <Footer />}
     <div id="glass-cursor" aria-hidden="true">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <line x1="7" y1="17" x2="17" y2="7"/>
@@ -96,6 +128,10 @@ const { title = "New World Fool Productions", noSnap = false } = Astro.props;
     main {
       padding: 0;
     }
+  }
+
+  main.bare {
+    padding: 0;
   }
 
   #glass-cursor {

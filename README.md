@@ -1,43 +1,55 @@
-# Astro Starter Kit: Minimal
+# New World Fool Productions — website
 
-```sh
-npm create astro@latest -- --template minimal
-```
+Source for [newworldfoolproductions.com](https://newworldfoolproductions.com), built with [Astro](https://astro.build).
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Hosted on **Netlify** (Cloudflare sits in front as DNS/proxy). Netlify builds with `npm run build` and publishes `dist/`; anything in `netlify/functions/` is deployed as a serverless function automatically.
 
-## 🚀 Project Structure
+## Commands
 
-Inside of your Astro project, you'll see the following folders and files:
+| Command           | Action                                                   |
+| :---------------- | :------------------------------------------------------- |
+| `npm install`     | Install dependencies                                     |
+| `npm run dev`     | Local dev server at `localhost:4321` (no functions)      |
+| `npm run build`   | Build the site into `dist/`                              |
+| `npm run preview` | Preview the built site                                   |
+| `npx netlify dev` | Local dev **with** functions + Blobs (needed for the ARG) |
+
+## Layout
 
 ```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+src/
+  data/films.ts        Film list — titles, posters, stills, laurels, credits
+  data/arg.ts          ARG tape config (URLs, labels, videos)
+  pages/               One file per route
+  pages/films/[slug]   Film detail pages, generated from data/films.ts
+  pages/footage/[slug] ARG password pages, generated from data/arg.ts
+  layouts/Layout.astro Shared <head> (SEO + link previews), nav, footer
+netlify/functions/
+  footage.mts          ARG password check + global solve state
+public/                Static files served as-is (images, logo, favicon)
+public/og/             1200×630 link-preview images
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Contact form
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+Submits through [FormSubmit](https://formsubmit.co) to newworldfoolproductions@gmail.com. Spam is filtered with a hidden honeypot field.
 
-Any static assets, like images, can be placed in the `public/` directory.
+## ARG ("Recovered Footage")
 
-## 🧞 Commands
+Three password pages at `/footage/<slug>` (slugs in `src/data/arg.ts`). Each takes a 10-character code:
 
-All commands are run from the root of the project, from a terminal:
+- The code is checked **server-side** by `netlify/functions/footage.mts`, so it never reaches the browser until solved. Passwords live in Netlify environment variables — **never commit them** (this repo is public):
+  - `ARG_PASSWORD_TAPE_1`, `ARG_PASSWORD_TAPE_2`, `ARG_PASSWORD_TAPE_3`
+  - Set in Netlify → Site configuration → Environment variables (mark as secret). Locally, put them in `.env` (gitignored).
+- The first correct guess is stored in Netlify Blobs (store `arg-solves`). From then on **every** visitor sees the password in green and the same 24-hour countdown.
+- The browser that solves it first emails newworldfoolproductions@gmail.com via FormSubmit.
+- A tape with `revealEmbedUrl` set (tape 3) plays that film on the TV once solved. The URL is only sent to the browser after the solve, so it can't be found in the page source.
+- To reset a tape (e.g. after testing), delete its key from the `arg-solves` store in Netlify → Blobs, or run `npx netlify blobs:delete arg-solves <slug>`. Locally: `npm run arg:reset-local`.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+### Homepage takeover
 
-## 👀 Want to learn more?
+Set the Netlify environment variable **`ARG_HOMEPAGE_TAPE`** to `1`, `2` or `3` and redeploy (Deploys → Trigger deploy). From then on newworldfoolproductions.com/ sends visitors straight to that tape. Empty it and redeploy to turn it off.
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- Handled by `netlify/edge-functions/arg-home.ts`. Only `/` is affected; every other page works normally.
+- Each tape's **Go to homepage** button links to `/?home`, which sets a cookie so that visitor can browse the normal site for the rest of their browser session.
+- Locally: set it in `.env` and restart `npm run dev:netlify`.

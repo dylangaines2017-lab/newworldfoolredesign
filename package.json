@@ -9,9 +9,13 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "images": "node scripts/optimize-images.mjs",
+    "dev:netlify": "npx -y netlify-cli dev",
+    "arg:reset-local": "rm -rf .netlify/blobs-serve"
   },
   "dependencies": {
+    "@netlify/blobs": "^10.7.13",
     "astro": "^6.0.4"
   },
   "overrides": {
